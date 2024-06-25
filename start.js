@@ -7,6 +7,8 @@ const server = require('./server');
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const remoteMain = require('@electron/remote/main');
+const ElectronStore = require('electron-store');
+ElectronStore.initRenderer();
 
 remoteMain.initialize();
 
