@@ -34,8 +34,7 @@ let dotInterval = setInterval(function () {
   $(".dot").text(".");
 }, 3000);
 let Store = require("electron-store");
-const remote = require("electron").remote;
-const app = remote.app;
+const { app } = require('@electron/remote');
 let img_path = app.getPath("appData") + "/POS/uploads/";
 let api = "http://" + host + ":" + port + "/api/";
 let btoa = require("btoa");

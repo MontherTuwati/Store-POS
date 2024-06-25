@@ -3,10 +3,12 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
-
 const server = require('./server');
 const {app, BrowserWindow, ipcMain} = require('electron');
-const path = require('path')
+const path = require('path');
+const remoteMain = require('@electron/remote/main');
+
+remoteMain.initialize();
 
 // Retrieve the app version
 const appVersion = app.getVersion();
@@ -14,10 +16,10 @@ const appVersion = app.getVersion();
 // Set the feed URL for updates
 autoUpdater.setFeedURL({
   provider: 'github',
-  owner: 'Ayuen-madyt',
-  repo: 'Quicktill',
+  owner: 'MontherTuwati',
+  repo: 'Zeead-POS',
   token: process.env.GITHUB_TOKEN,
-  url: `https://github.com/Ayuen-madyt/Quicktill/releases/tag/v${appVersion}`,
+  url: `https://github.com/MontherTuwati/Zeead-POS/releases/tag/v${appVersion}`,
 });
 
 autoUpdater.checkForUpdatesAndNotify();
@@ -29,21 +31,12 @@ const setupEvents = require('./installers/setupEvents')
 
 // Set the log file location
 log.transports.file.file = `${app.getPath('userData')}/quicktill.log`;
-
-// Set the log level (optional)
 log.transports.file.level = 'info'; // or 'debug', 'warn', 'error', etc.
-
-// Configure other options (optional)
 log.transports.file.format = '{h}:{i}:{s} {level} {text}';
-
-// Add logging to console (optional)
 log.transports.console.level = false; // Disable console logging
-
-// Initialize the logger
 log.catchErrors();
-
-// Usage example
 log.info('App started');
+
 
 const contextMenu = require('electron-context-menu');
 
@@ -54,25 +47,25 @@ function createWindow() {
     width: 1500,
     height: 1200,
     frame: false,
-    minWidth: 1200, 
+    minWidth: 1200,
     minHeight: 750,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
       enableRemoteModule: true,
-      contextIsolation: false
     },
   });
+
+  remoteMain.enable(mainWindow.webContents);
 
   mainWindow.maximize();
   mainWindow.show();
 
-  mainWindow.loadURL(
-    `file://${path.join(__dirname, 'index.html')}`
-  )
+  mainWindow.loadURL(`file://${path.join(__dirname, 'index.html')}`);
 
   mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+    mainWindow = null;
+  });
 }
 
 
