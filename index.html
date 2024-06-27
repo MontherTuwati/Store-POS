@@ -16,6 +16,7 @@
     </head>
   <body>
     
+    
 <div class="main_app">
 
     <div id="loading"></div>
@@ -42,15 +43,13 @@
                                 <i class="fa fa-plus"></i> 
                             </button>
                             </div>
-                   
-                
                         
                     </div>
 
-
-
                     
-                    <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                    
+                            <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                
 
                     <div class="button-list pull-right m-t-15 m-l-10">  
 
@@ -90,9 +89,13 @@
                             </button>
                         
                 </div>
-        
+
+
+                
             </div>
         </div>
+
+        
     <br>
 
 
@@ -207,6 +210,7 @@
 <!-- POS View -->
    <div id="pos_view">
       <div class="row">
+        <!--Screen Left-->
           <div class="col-md-4">
               <div class="card-box" id="card-box">
                   <div class="col-md-12">
@@ -229,6 +233,8 @@
                           </span>
                       </div>
                   </div>
+
+                  
                   <div>
                       <table class="table tablesaw-enhanced" id="cartTable">
   
@@ -252,7 +258,9 @@
                       </table>
                   </div>
   
-                  <hr>
+                  
+                <hr>
+
                  <div class="m-t-5">
                      <div class="row">
                          <div class="col-md-3">Total Item(s)</div>
@@ -271,40 +279,33 @@
   
                   
                   <hr>
+
+                <!--Hold and Cancel Buttons-->
+
+                <div class="cart-button row">
+
+                    <div class="hold-button">
+                        <button id="viewRefOrders" data-toggle="modal" data-target="#holdOrdersModal" type="button" class="btn btn-warning waves-effect waves-light">
+                            <span class="cart-btn-label"><i class="fa fa-shopping-basket"></i></span>
+                        </button>
+                    </div>
+                    
+                    <button  onclick="$(this).cancelOrder()" type="button" class="btn btn-danger waves-effect waves-light">
+                        <span class="cart-btn-label"><i class="fa fa-ban"></i></span>Cancel
+                    </button>
+
+                    <button type="button" id="hold" class="btn btn-default waves-effect waves-light">
+                        <span class="cart-btn-label"><i class="fa fa-clock-o"></i></span>Hold
+                    </button>
+                </div>
+
               </div>
+                
           </div>
-
-          <div class="transaction-button col-md-1">
-            <div class="row">
-                <button type="button" id="payButton" class="btn btn-success waves-effect waves-light">
-                    <span class="btn-label"><i class="fa fa-money"></i></span>Pay
-                </button>
-
-                <button type="button" id="hold" class="btn btn-default waves-effect waves-light">
-                    <span class="btn-label"><i class="fa fa-hand-paper-o"></i></span>Hold
-                </button>
-
-                  <button  onclick="$(this).cancelOrder()" type="button" class="btn btn-danger waves-effect waves-light">
-                      <span class="btn-label"><i class="fa fa-ban"></i></span>Cancel
-                  </button>
-
-                  <button onclick="$(this).submitDueOrder(3);" type="button" class="btn btn-info waves-effect waves-light">
-                    <span class="btn-label"><i class="fa fa-print"></i></span>Print
-                </button>
-
-                <button id="viewRefOrders" data-toggle="modal" data-target="#holdOrdersModal" type="button" class="btn btn-warning waves-effect waves-light">
-                    <span class="btn-label"><i class="fa fa-shopping-basket"></i> </span> Tabs
-            </button>
-
-            <button id="viewCustomerOrders" data-toggle="modal" data-target="#customerModal" type="button" onclick="$(this).getCustomerOrders()" class="btn btn-purple waves-effect waves-light">
-                    <span class="btn-label"><i class="fa fa-user"></i> </span> Customers
-            </button>
-            </div>
-          </div>
-
           
-          <div class="col-md-7">
-              <div class="card-box">
+          <!--Screen Right-->
+          <div class="col-md-8">
+              <div class="pos-card-box">
                   <div class="row">
                       <div class="col-md-4">
                           <input type="text" id="search" class="form-control" placeholder="Search product by name or number">
@@ -324,6 +325,119 @@
                   </div>
   
               </div>
+
+              <!--Key Pad-->
+              <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <div class="input-group bg-white">
+                        <span class="input-group-addon" id="basic-addon3"><span id="payment_curr"></span> </span>
+                        <input type="text" placeholder="0.0" class="form-control" id="payment" aria-describedby="basic-addon3">
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="container">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(1,false);" class="btn btn-success btn-lg btn-block">1</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(2,false);" class="btn btn-success btn-lg btn-block">2</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(3,false);" class="btn btn-success btn-lg btn-block">3</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-lg">100</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-lg">AC</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(4,false);" class="btn btn-success btn-lg btn-block">4</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(5,false);" class="btn btn-success btn-lg btn-block">5</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(6,false);" class="btn btn-success btn-lg btn-block">6</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-lg">20</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-lg">Exact</button>
+                                    </div>
+                                    
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(7,false);" class="btn btn-success btn-lg btn-block">7</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(8,false);" class="btn btn-success btn-lg btn-block">8</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(9,false);" class="btn btn-success btn-lg btn-block">9</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-lg">50</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" id="payButton" class="btn btn-success btn-block btn-lg waves-effect waves-light">
+                                            <span class="btn-label"><i class="fa fa-money"></i></span>Pay
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button onclick="$('#payment').val($('#payment').val().substr(0,$('#payment').val().length -1));$(this).calculateChange();" class="btn btn-success btn-lg btn-block">⌫</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).go(0,false);" class="btn btn-success btn-lg btn-block">0</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="$(this).digits()" class="btn btn-success btn-lg btn-block">.</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" class="btn btn-info btn-block btn-lg waves-effect waves-light">
+                                            <span class="btn-label"><i class="fa fa-print"></i></span>Print
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button id="viewCustomerOrders" data-toggle="modal" data-target="#customerModal" type="button" onclick="$(this).getCustomerOrders()" class="btn btn-purple btn-block btn-lg waves-effect waves-light">
+                                            <span class="btn-label"><i class="fa fa-user"></i> </span> Customers
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                            <div class="col-md-9">
+                                
+                                <br>
+                                
+                                <br>
+                                <div class="row">
+                                    
+                                </div>
+                                <br>
+                                <div class="row">
+                                    
+                                </div>
+                            </div>
+                        
+                    </div>
+                    <br>
+                </div>
+            </div>
           </div>
       </div>
   </div>
@@ -877,7 +991,6 @@
 
 
 
-
 <div id="orderModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -974,6 +1087,7 @@
                               
 
                             </div>
+                            
                             <div class="col-md-6">
                                     <div class="form-group">
                                             <label for="userName">Currency Symbol</label>
@@ -1014,10 +1128,12 @@
                     </div>
                </div>
           </div>
+
+          
      </div>
 
   </div>
-
+  
 </div>
 
 <script> window.$ = window.jQuery = require('jquery'); </script>
