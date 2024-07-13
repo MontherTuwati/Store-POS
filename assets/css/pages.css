@@ -28,7 +28,7 @@
 
 #parent { 
   display: block; 
-  height: calc(100vh - 215px);
+  height: calc(53vh - 215px);
   overflow: auto;
   overflow: hidden;
 }
@@ -41,7 +41,7 @@ color: #FFFFFF;
 
 #parent .box {
   margin: 10px 5px;
-  width: 250px;
+  width: 190px;
   height: 250px;
   text-align: center;
   font-size: 20px;

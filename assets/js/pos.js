@@ -277,19 +277,26 @@ if (auth == undefined) {
             item.quantity
           }, ${item.stock})">
                       <div class="widget-panel widget-style-2 ">                    
-                      <div id="image"><img src="${
-                        item.img == ""
-                          ? "./assets/images/default.jpg"
-                          : img_path + item.img
-                      }" id="product_img" alt=""></div>                    
+                                  <div id="image">
+                                    <img src="${
+                                      item.img == ""
+                                        ? "./assets/images/default.jpg"
+                                        : img_path + item.img
+                                    }" id="product_img" alt="">
+                                  </div>
+
                                   <div class="text-muted m-t-40 text-center">
-                                  <div class="name" id="product_name">${
-                                    item.name
-                                  }</div> 
-                                  <span class="sku">${item.sku}</span>
-                                  <span class="stock">STOCK </span><span class="count">${
-                                    item.stock == 1 ? item.quantity : "N/A"
-                                  }</span></div>
+                                    <div class="name" id="product_name">${
+                                      item.name
+                                    }</div>
+
+                                    <span class="sku">${item.sku}</span>
+
+                                    <span class="stock">STOCK </span><span class="count">${
+                                      item.stock == 1 ? item.quantity : "N/A"
+                                    }</span>
+                                  </div>
+
                                   <sp class="text-success text-center"><b data-plugin="counterup">${
                                     settings.symbol + item.price
                                   }</b> </sp>
@@ -507,19 +514,6 @@ if (auth == undefined) {
           $("<tr>").append(
             $("<td>", { text: index + 1 }),
             $("<td>", { text: data.product_name }),
-            $("<td>").append(
-              $("<div>", { id: "image", class: "cart-image-wrapper" }).append(
-                $("<img>", {
-                  src:
-                    data.img == ""
-                      ? "./assets/images/default.jpg"
-                      : img_path + data.img,
-                  id: "product_img",
-                  alt: "",
-                  class: "cart-image",
-                })
-              )
-            ),
             $("<td>").append(
               $("<div>", { class: "input-group" }).append(
                 $("<div>", { class: "input-group-btn btn-xs" }).append(
@@ -1191,8 +1185,6 @@ if (auth == undefined) {
       });
       editCustomer = false;
     });
-
-    $("#confirmPayment").hide();
 
     $("#cardInfo").hide();
 
@@ -2573,9 +2565,19 @@ $("#quit").click(function () {
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
     confirmButtonText: "Close Application",
+    cancelButtonText: "Cancel",
+    showDenyButton: true,
+    denyButtonText: "Restart Application",
+    customClass: {
+      confirmButton: 'swal2-confirm btn btn-danger',
+      cancelButton: 'swal2-cancel btn btn-secondary',
+      denyButton: 'swal2-deny btn btn-warning'
+    }
   }).then((result) => {
-    if (result.value) {
+    if (result.isConfirmed) {
       ipcRenderer.send("app-quit", "");
+    } else if (result.isDenied) {
+      ipcRenderer.send("app-restart", "");
     }
   });
 });

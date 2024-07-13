@@ -329,10 +329,19 @@ a:focus {
   margin-bottom: 20px;
   background-color: #ffffff;
 }
+.screen-card-box {
+  padding: 20px;
+  border: 1px solid rgba(54, 64, 74, 0.05);
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  background-clip: padding-box;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
 .pos-card-box {
   padding: 20px;
   border: 1px solid rgba(54, 64, 74, 0.05);
-  height: calc(94vh - 425px);
   -webkit-border-radius: 5px;
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -390,7 +399,6 @@ a:focus {
   justify-content: center;
   align-items: center;
 }
-
 .transaction-button .btn {
   width: 190px;
   height: 70px;
@@ -398,13 +406,11 @@ a:focus {
   text-align: center;
   margin: 30px 8px; /* Add margin as needed */
 }
-
 .cart-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .cart-button .btn {
   width: 250px;
   height: 60px;
@@ -412,20 +418,17 @@ a:focus {
   text-align: center;
   margin: 0px 8px; /* Add margin as needed */
 }
-
 .hold-button {
   display: flex;
   justify-content: center;
   align-items: center;
   
 }
-
 .hold-button .btn {
   width: 60px;
   height: 60px;
   font-size: 20px;
 }
-
 .button-list {
   margin-left: -8px;
   margin-bottom: -12px;

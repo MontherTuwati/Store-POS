@@ -46,11 +46,12 @@ let mainWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1500,
-    height: 1200,
+    fullscreen: true,
+    width: 1920,
+    height: 1080,
     frame: false,
-    minWidth: 1200,
-    minHeight: 750,
+    minWidth: 1280,
+    minHeight: 800,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -90,6 +91,11 @@ app.on('activate', () => {
 ipcMain.on('app-quit', (evt, arg) => {
   app.quit()
 })
+
+ipcMain.on('app-restart', (evt, arg) => {
+  app.relaunch();
+  app.exit(0);
+});
 
 
 ipcMain.on('app-reload', (event, arg) => {

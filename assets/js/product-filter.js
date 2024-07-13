@@ -117,11 +117,6 @@ $(document).ready(function(){
         }else{
             $("#change").text('0')
         }
-        if(change <= 0){
-            $("#confirmPayment").show();
-        }else{
-            $("#confirmPayment").hide();
-        }
     }
 
 })
