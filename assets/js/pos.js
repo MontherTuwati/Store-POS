@@ -1193,11 +1193,16 @@ if (auth == undefined) {
     });
 
     $("#confirmPayment").on("click", function () {
-      if ($("#payment").val() == "") {
-        Swal.fire("Nope!", "Please enter the amount that was paid!", "warning");
+      if (cart.length != 0) {
+        if ($("#payment").val() == "") {
+          Swal.fire("Nope!", "Please enter an amount!", "warning");
+        } else {
+          $(this).submitDueOrder(1);
+        }
       } else {
-        $(this).submitDueOrder(1);
+        Swal.fire("Oops!", "There is nothing in Cart!", "warning");
       }
+      
     });
 
     $("#transactions").click(function () {

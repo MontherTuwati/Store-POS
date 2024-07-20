@@ -18,13 +18,13 @@
     <body> 
         <div class="main_app">
             <div id="loading"></div>
-                <div class="container">
 
-                    <!--  Modal content for Header -->
-                    <div class="row">
-                        <div class="col-sm-12">
-
-                            <div class="button-list pull-left m-t-15 m-l-10">  
+                <!--  Modal content for Header -->
+                <div class="bg-secondary">
+                    <div class="row container">
+                        <div class="col-sm-12 m-t-15 m-l-10 m-b-15">
+                        
+                            <div class="button-list pull-left">  
                                 <div class="btn-group p_one">
                                     <button id="productModal" data-toggle="modal" data-target="#Products" type="button" class="btn btn-default waves-effect waves-light">
                                             <span class="btn-label"><i class=" 	glyphicon glyphicon-barcode"></i> </span>  Products   
@@ -32,9 +32,9 @@
                                     <button id="newProductModal" data-toggle="modal" data-target="#newProduct" type="button" class="btn btn-warning waves-effect waves-light">
                                             <i class="fa fa-plus"></i> 
                                     </button>
-                                    </div>
+                                </div>
 
-                                    <div class="btn-group p_two">
+                                <div class="btn-group p_two">
                                     <button id="categoryModal" data-toggle="modal" data-target="#Categories" type="button" class="btn btn-default waves-effect waves-light">
                                             <span class="btn-label"><i class="glyphicon glyphicon-th"></i> </span>  Categories   
                                     </button>
@@ -49,22 +49,22 @@
                             <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
                         
 
-                            <div class="button-list pull-right m-t-15 m-l-10">  
+                            <div class="button-list pull-right">  
 
                                 <button id="settings" data-toggle="modal" data-target="#settingsModal"  type="button"  class="btn btn-default waves-effect waves-light p_five">
                                     <i class="glyphicon glyphicon-cog"></i>
                                 </button>
 
-                                <button id="transactions" type="button" class="btn btn-default waves-effect waves-light p_three">
+                                <button id="transactions" type="button" class="btn btn-secondary waves-effect waves-light p_three">
                                     <span class="btn-label"><i class=" 	glyphicon glyphicon-credit-card"></i> </span>  Transactions 
                                 </button>
 
-                                <button id="pointofsale" type="button" class="btn btn-default waves-effect waves-light">
-                                    <span class="btn-label"><i class=" 	glyphicon glyphicon-shopping-cart"></i> </span>  Point of Sale
+                                <button id="pointofsale" type="button" class="btn btn-secondary waves-effect waves-light">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-shopping-cart"></i> </span>  Point of Sale
                                 </button>
 
                                 <div class="btn-group p_four">
-                                    <button id="usersModal" data-toggle="modal" data-target="#Users" type="button" class="btn btn-default waves-effect waves-light">
+                                    <button id="usersModal" data-toggle="modal" data-target="#Users" type="button" class="btn btn-secondary waves-effect waves-light">
                                             <span class="btn-label"><i class=" 	glyphicon glyphicon-user"></i> </span>  Users  
                                     </button>
                                     <button id="add-user" data-toggle="modal"   type="button" class="btn btn-dark waves-effect waves-light">
@@ -72,25 +72,37 @@
                                     </button>
                                 </div>
 
-
-                                <button type="button"  class="btn btn-light waves-effect waves-light" id="cashier">
+                                <button type="button"  class="btn btn-secondary waves-effect waves-light" id="cashier">
                                     <span class="btn-label"><i class="glyphicon glyphicon-user"></i> </span> <span id="loggedin-user"></span>
                                 </button>
 
-                                <button id="log-out"  type="button"  class="btn btn-warning waves-effect waves-light">
+                                <button id="home"  type="button"  class="btn btn-secondary waves-effect waves-light">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-home"></i></span>
+                                </button>
+
+                                <button id="keyboard"  type="button"  class="btn btn-secondary waves-effect waves-light">
+                                    <i class="fa fa-keyboard"></i>
+                                </button>
+
+                                <button id="log-out"  type="button"  class="btn btn-secondary waves-effect waves-light">
                                         <i class="glyphicon glyphicon-log-out"></i>
                                 </button>
-                
                 
                                 <button id="quit"  type="button" class="btn btn-danger waves-effect waves-light">
                                         <i class="glyphicon glyphicon-off"></i>
                                 </button>
+
+                                Time
                                 
                             </div>
                         </div>
                     </div>
-
-                    <br>
+                    
+                </div>
+                
+                <br>
+                
+                <div class="container-fluid">
 
                     <!--  Modal content for Stock View -->
                     <div id="stock_view">
@@ -209,10 +221,10 @@
                                         <div class="row">
                                             <div class="col-md-11">
                                                 <select name="" id="customer" class="form-control">
-                                            </select>
+                                                </select>
                                             </div>
-                                            <div class="col-md-1">
-                                                <button data-toggle="modal" data-target="#newCustomer" id="add_customer_button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                                            <div class="">
+                                                <button data-toggle="modal" data-target="#newCustomer" id="add_customer_button" class="btn btn-secondary"><i class="fa fa-plus"></i></button>
                                             </div>
                                         </div>
                                         <div class="input-group m-t-5">
@@ -276,16 +288,17 @@
                                     <div class="cart-button row">
 
                                         <div class="hold-button">
-                                            <button id="viewRefOrders" data-toggle="modal" data-target="#holdOrdersModal" type="button" class="btn btn-warning waves-effect waves-light">
-                                                <span class="cart-btn-label"><i class="fa fa-shopping-basket"></i></span>
+                                            <button id="viewRefOrders" data-toggle="modal" data-target="#holdOrdersModal" type="button" class="btn btn-dark waves-effect waves-light">
+                                                <span class="btn-label-center"><i class="fa fa-clock-o"></i></span>
+                                                <sup><span class="badge badge-pill badge-warning">4</span></sup>
                                             </button>
                                         </div>
                                         
-                                        <button  onclick="$(this).cancelOrder()" type="button" class="btn btn-danger waves-effect waves-light">
+                                        <button  onclick="$(this).cancelOrder()" type="button" class="btn btn-secondary waves-effect waves-light">
                                             <span class="cart-btn-label"><i class="fa fa-ban"></i></span>Cancel
                                         </button>
 
-                                        <button type="button" id="hold" class="btn btn-default waves-effect waves-light">
+                                        <button type="button" id="hold" class="btn btn-secondary waves-effect waves-light">
                                             <span class="cart-btn-label"><i class="fa fa-clock-o"></i></span>Hold
                                         </button>
                                     </div>
@@ -364,12 +377,13 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <button onclick="$(this).submitDueOrder(3);" type="button" class="btn btn-info btn-block btn-xl waves-effect waves-light">
-                                                                    <span class="btn-label"><i class="fa fa-print"></i></span>Print
+                                                                    <span class="btn-label-center"><i class="fa fa-print"></i> <span>Print</span></span>
                                                                 </button>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <button id="viewCustomerOrders" data-toggle="modal" data-target="#customerModal" type="button" onclick="$(this).getCustomerOrders()" class="btn btn-purple btn-block btn-xl waves-effect waves-light">
-                                                                    <span class="btn-label"><i class="fa fa-user"></i> </span> Customers
+                                                                    <span class="btn-label-center"><i class="fa fa-user"></i> <span> Customers</span></span>
+                                                                    
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -377,30 +391,27 @@
                                                 </div>
                                                 <div class="">
                                                     <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon" id="basic-addon3">
-                                                                Payment 
-                                                                <span id="payment_curr"></span>
+                                                        <div class="input-group input-group-lg">
+                                                            <div class="input-group-addon" id="basic-addon3"><span id="payment_curr"></span></div>
                                                             <input type="text" placeholder="0.0" class="form-control" id="payment" aria-describedby="basic-addon3"></input>
                                                         </div>
+                                                        <br>
                                                     </div>
                                                     
                                                     <div class="col-md-2">
-                                                        <span class="input-group-addon" id="basic-addon3">Change <span id="change_curr"></span>
-                                                            <input id="change" readonly type="number" class="form-control" aria-describedby="basic-addon3">
-                                                        </span>
+                                                        <div class="btn btn-secondary btn-block btn-lg waves-effect waves-light">Change <span id="change_curr"></span><span id="change"></span> </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(1,false);" class="btn btn-success btn-xl btn-block">1</button>
+                                                            <button onclick="$(this).go(1,false);" class="btn btn-secondary btn-xl btn-block text-xl" >1</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(2,false);" class="btn btn-success btn-xl btn-block">2</button>
+                                                            <button onclick="$(this).go(2,false);" class="btn btn-secondary btn-xl btn-block text-lg">2</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(3,false);" class="btn btn-success btn-xl btn-block">3</button>
+                                                            <button onclick="$(this).go(3,false);" class="btn btn-secondary btn-xl btn-block">3</button>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <button onclick="$('#payment').val($('#payment').val().substr(0,$('#payment').val().length -1));$(this).calculateChange();" class="btn btn-danger btn-xl btn-block">⌫</button>
@@ -412,35 +423,35 @@
                                                     <br>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(4,false);" class="btn btn-success btn-xl btn-block">4</button>
+                                                            <button onclick="$(this).go(4,false);" class="btn btn-secondary btn-xl btn-block">4</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(5,false);" class="btn btn-success btn-xl btn-block">5</button>
+                                                            <button onclick="$(this).go(5,false);" class="btn btn-secondary btn-xl btn-block">5</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(6,false);" class="btn btn-success btn-xl btn-block">6</button>
+                                                            <button onclick="$(this).go(6,false);" class="btn btn-secondary btn-xl btn-block">6</button>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <button onclick="$(this).go(50,false);" class="btn btn-danger btn-block btn-xl">50</button>
+                                                            <button onclick="$(this).go(50,false);" class="btn btn-dark btn-block btn-xl"><span id="change_curr"></span>50</button>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <button onclick="$(this).go(100,false);" class="btn btn-danger btn-block btn-xl">100</button>
+                                                            <button onclick="$(this).go(100,false);" class="btn btn-dark btn-block btn-xl"><span id="change_curr"></span>100</button>
                                                         </div>
                                                         
                                                     </div>
                                                     <br>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(7,false);" class="btn btn-success btn-xl btn-block">7</button>
+                                                            <button onclick="$(this).go(7,false);" class="btn btn-secondary btn-xl btn-block">7</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(8,false);" class="btn btn-success btn-xl btn-block">8</button>
+                                                            <button onclick="$(this).go(8,false);" class="btn btn-secondary btn-xl btn-block">8</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(9,false);" class="btn btn-success btn-xl btn-block">9</button>
+                                                            <button onclick="$(this).go(9,false);" class="btn btn-secondary btn-xl btn-block">9</button>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-dark btn-block btn-xl">Rounded Up</button>
+                                                            <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-dark btn-block btn-xl">Round Up</button>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-dark btn-block btn-xl">Exact</button>
@@ -449,28 +460,26 @@
                                                     <br>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go('00',false);" class="btn btn-success btn-xl btn-block">00</button>
+                                                            <button onclick="$(this).go(0,false);" class="btn btn-secondary btn-xl btn-block">0</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).go(0,false);" class="btn btn-success btn-xl btn-block">0</button>
+                                                            <button onclick="$(this).go('00',false);" class="btn btn-secondary btn-xl btn-block">00</button>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button onclick="$(this).digits()" class="btn btn-success btn-xl btn-block">.</button>
+                                                            <button onclick="$(this).digits()" class="btn btn-secondary btn-xl btn-block">.</button>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <button onclick="$('#payment').val('');$(this).calculateChange();" class="btn btn-danger btn-block btn-xl">Refund</button>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <button type="button" id="confirmPayment" class="btn btn-success btn-block btn-xl waves-effect waves-light">
-                                                                <span class="btn-label"><i class="fa fa-money"></i></span>Confirm Pay
+                                                                <span class="btn-label-center"><i class="fa fa-money"> </i> <span> Pay</span></span>
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                         </div>
-                                        <br>
                                     </div>
                                 </div>
                             </div>

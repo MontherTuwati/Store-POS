@@ -28,7 +28,7 @@
 
 #parent { 
   display: block; 
-  height: calc(53vh - 215px);
+  height: calc(54vh - 215px);
   overflow: auto;
   overflow: hidden;
 }

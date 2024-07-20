@@ -2,7 +2,7 @@
 /* start of custome styles*/
 .leftMargin {
   margin-left: -110px !important;
-  width: 65% !important;
+  /* width: 65% !important; */
   overflow-x: auto !important;
 }
 
@@ -390,6 +390,13 @@
   margin-left: 12px;
   margin-right: -13px;
   border-radius: 0px 3px 3px 0px;
+}
+.btn-label-center {
+  background: rgba(0, 0, 0, 0.05);
+  display: inline-block;
+  padding: 7px 15px;
+  border-radius: 3px 0 0 3px;
+  margin: -7px -13px;
 }
 .btn-group.open .dropdown-toggle {
   box-shadow: none;
