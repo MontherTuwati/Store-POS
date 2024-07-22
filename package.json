@@ -1,12 +1,12 @@
 {
-  "name": "MTPos",
+  "name": "NexusPOS",
   "version": "0.2.2",
-  "description": "MTPos of Sale is a desktop application developed by MTech Technologies",
-  "author": "MTech Technologies",
+  "description": "MTPos of Sale is a desktop application developed by Nexus Technologies",
+  "author": "Nexus Technologies",
   "private": true,
   "main": "start.js",
   "build": {
-    "appId": "mtpos.app",
+    "appId": "nexuspos.app",
     "directories": {
       "buildResources": "assets"
     },
@@ -40,6 +40,8 @@
     "@electron/remote": "^2.1.2",
     "async": "^3.2.5",
     "body-parser": "^1.18.2",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "btoa": "^1.2.1",
     "dotenv": "^16.0.3",
     "electron-context-menu": "^3.6.1",
@@ -64,6 +66,7 @@
     "notiflix": "^3.2.6",
     "path": "^0.12.7",
     "print-js": "^1.0.63",
+    "simple-keyboard": "^3.7.93",
     "socket.io": "^4.7.5",
     "stripe": "^12.3.0",
     "sweetalert2": "^11.12.0",

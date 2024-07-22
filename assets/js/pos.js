@@ -64,6 +64,7 @@ let by_till = 0;
 let by_user = 0;
 let by_status = 1;
 
+
 $(function () {
   function cb(start, end) {
     $("#reportrange span").html(
@@ -163,6 +164,7 @@ if (auth == undefined) {
 
   $(document).ready(function () {
     $(".loading").hide();
+    
 
     loadCategories();
     loadProducts();
@@ -1205,21 +1207,27 @@ if (auth == undefined) {
       
     });
 
+    $("#home").click(function () {
+      $("#pos_view").hide();
+      $("#transactions_view").hide();
+      $("#home_view").show();
+    });
+
     $("#transactions").click(function () {
       loadTransactions();
       loadUserList();
 
       $("#pos_view").hide();
+      $("#home_view").hide();
       $("#pointofsale").show();
       $("#transactions_view").show();
-      $(this).hide();
     });
 
     $("#pointofsale").click(function () {
       $("#pos_view").show();
       $("#transactions").show();
       $("#transactions_view").hide();
-      $(this).hide();
+      $("#home_view").hide();
     });
 
     $("#viewRefOrders").click(function () {
@@ -1726,6 +1734,7 @@ if (auth == undefined) {
       loadCustomerList();
     });
 
+    /* Load Product List */
     function loadProductList() {
       let products = [...allProducts];
       let product_list = "";
@@ -1794,6 +1803,7 @@ if (auth == undefined) {
         }
       });
     }
+    /* End of Product List */
 
     function loadCategoryList() {
       let category_list = "";
@@ -2012,7 +2022,7 @@ if (auth == undefined) {
       $("#saveUser").get(0).reset();
       $("#userModal").modal("show");
     });
-
+    
     $("#settings").click(function () {
       if (platform.app == "Network Point of Sale Terminal") {
         $("#net_settings_form").show(500);
@@ -2525,9 +2535,17 @@ $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
 function authenticate() {
   $("#loading").append(
     `<div id="load">
-    <form id="account"><div class="form-group"><input type="text" placeholder="Username" name="username" class="form-control"></div>
-        <div class="form-group"><input type="password" placeholder="Password" name="password" class="form-control"></div>
-        <div class="form-group"><input type="submit" class="btn btn-block btn-default" value="Login"></div></form>`
+    <form id="account">
+      <div class="form-group">
+        <input type="text" placeholder="Username" name="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password" name="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-default" value="Login">
+      </div>
+    </form>`
   );
 }
 
@@ -2580,7 +2598,11 @@ $("#quit").click(function () {
     }
   }).then((result) => {
     if (result.isConfirmed) {
-      ipcRenderer.send("app-quit", "");
+      $.get(api + "users/logout/" + user._id, function (data) {
+        storage.delete("auth");
+        storage.delete("user");
+        ipcRenderer.send("app-quit", "");
+      });
     } else if (result.isDenied) {
       ipcRenderer.send("app-restart", "");
     }
