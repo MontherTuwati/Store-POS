@@ -148,6 +148,7 @@ if (auth == undefined) {
       perms = true;
     }
   }
+  
 
   $.get(api + "users/user/" + user._id, function (data) {
     user = data;
@@ -164,7 +165,11 @@ if (auth == undefined) {
 
   $(document).ready(function () {
     $(".loading").hide();
-    
+    $("#home_view").show();
+    $("#stock_view").hide();
+    $("#statistics_view").hide();
+    $("#pos_view").hide();
+    $("#transactions_view").hide();
 
     loadCategories();
     loadProducts();
@@ -321,6 +326,7 @@ if (auth == undefined) {
       });
     }
 
+    // Load categories
     function loadCategories() {
       $.get(api + "categories/all", function (data) {
         allCategories = data;
@@ -391,7 +397,7 @@ if (auth == undefined) {
             $("#searchBarCode").get(0).reset();
             $("#basic-addon2").empty();
             $("#basic-addon2").append(
-              $("<i>", { class: "glyphicon glyphicon-ok" })
+              $("<i>", { class: "bi bi-check-lg" })
             );
           } else if (data.quantity < 1) {
             Swal.fire(
@@ -409,7 +415,7 @@ if (auth == undefined) {
             $("#searchBarCode").get(0).reset();
             $("#basic-addon2").empty();
             $("#basic-addon2").append(
-              $("<i>", { class: "glyphicon glyphicon-ok" })
+              $("<i>", { class: "bi bi-check-lg" })
             );
           }
         },
@@ -511,31 +517,22 @@ if (auth == undefined) {
     $.fn.renderTable = function (cartList) {
       $("#cartTable > tbody").empty();
       $(this).calculateCart();
+      $('#cartTable').on('click', 'tbody tr', function(event) {
+        $(this).addClass('table-active').siblings().removeClass('table-active');
+      }); 
       $.each(cartList, function (index, data) {
         $("#cartTable > tbody").append(
           $("<tr>").append(
             $("<td>", { text: index + 1 }),
             $("<td>", { text: data.product_name }),
             $("<td>").append(
-              $("<div>", { class: "input-group" }).append(
-                $("<div>", { class: "input-group-btn btn-xs" }).append(
-                  $("<button>", {
-                    class: "btn btn-default btn-xs increase-btn",
-                    onclick: "$(this).qtDecrement(" + index + ")",
-                  }).append($("<i>", { class: "fa fa-minus" }))
-                ),
+              $("<div>", { class: "" }).append(
                 $("<input>", {
                   class: "cart-quantity-form",
 
                   value: data.quantity,
                   onInput: "$(this).qtInput(" + index + ")",
                 }),
-                $("<div>", { class: "input-group-btn btn-xs" }).append(
-                  $("<button>", {
-                    class: "btn btn-default btn-xs increase-btn",
-                    onclick: "$(this).qtIncrement(" + index + ")",
-                  }).append($("<i>", { class: "fa fa-plus" }))
-                )
               )
             ),
             $("<td>", {
@@ -1208,26 +1205,40 @@ if (auth == undefined) {
     });
 
     $("#home").click(function () {
-      $("#pos_view").hide();
-      $("#transactions_view").hide();
-      $("#home_view").show();
+        $("#pos_view").hide();
+        $("#transactions_view").hide();
+        $("#statistics_view").hide();
+        $("#stock_view").hide();
+        $("#home_view").show();
+        $("#transactions").show();
+        $("#pointofsale").show();
+        $("#statistics").show();
+        $("#stocks").show();
+    });
+
+    $("#stocks").click(function () {
+      $("#stock_view").show();
+      $("#home_view").hide();
+    });
+
+    $("#statistics").click(function () {
+      loadTransactions();
+      loadStats();
+      $("#statistics_view").show();
+      $("#home_view").hide();
     });
 
     $("#transactions").click(function () {
-      loadTransactions();
-      loadUserList();
+        loadTransactions();
+        loadUserList();
 
-      $("#pos_view").hide();
-      $("#home_view").hide();
-      $("#pointofsale").show();
-      $("#transactions_view").show();
+        $("#home_view").hide();
+        $("#transactions_view").show();
     });
 
     $("#pointofsale").click(function () {
-      $("#pos_view").show();
-      $("#transactions").show();
-      $("#transactions_view").hide();
-      $("#home_view").hide();
+        $("#home_view").hide();
+        $("#pos_view").show();
     });
 
     $("#viewRefOrders").click(function () {
@@ -1795,6 +1806,8 @@ if (auth == undefined) {
             JQueryUI: true,
             ordering: true,
             paging: true,
+            dom: "Bfrtip",
+            buttons: ["csv", "excel", "pdf"],
             language: {
               search: "_INPUT_",
               searchPlaceholder: "Search",
@@ -1817,6 +1830,7 @@ if (auth == undefined) {
         category_list += `<tr>
      
             <td>${category.name}</td>
+            <td>Item Count</td>
             <td><span class="btn-group"><button onClick="$(this).editCategory(${index})" class="btn btn-warning"><i class="fa fa-edit"></i></button><button onClick="$(this).deleteCategory(${category._id})" class="btn btn-danger"><i class="fa fa-trash"></i></button></span></td></tr>`;
       });
 
@@ -1827,7 +1841,11 @@ if (auth == undefined) {
           info: true,
           JQueryUI: true,
           ordering: true,
-          paging: false,
+          paging: true,
+          dom: "Bfrtip",
+          
+          
+          buttons: ["csv", "excel", "pdf"],
           language: {
             search: "_INPUT_",
             searchPlaceholder: "Search",
@@ -2248,6 +2266,8 @@ function loadTransactions() {
           });
         }
       });
+      // After processing transactions, update the chart
+      updateChart(sold_items);
     } else {
       Swal.fire(
         "No data!",
@@ -2309,6 +2329,49 @@ function loadSoldProducts() {
     }
   });
 }
+
+function updateChart(sold_items) {
+  // Group sold items by date
+  let salesByDate = {};
+  sold_items.forEach(item => {
+      let date = moment(item.date).format('YYYY-MM-DD'); // Format the date using moment.js
+      if (!salesByDate[date]) {
+          salesByDate[date] = 0;
+      }
+      salesByDate[date] += item.quantity; // Assuming 'quantity' is the field for the sold amount
+  });
+
+  let labels = Object.keys(salesByDate);
+  let data = Object.values(salesByDate);
+
+  myChart.data.labels = labels;
+  myChart.data.datasets[0].data = data;
+  myChart.update();
+}
+
+let myChart;
+function loadStats() {
+  const ctx = document.getElementById('myChart').getContext('2d');
+  myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: [],
+          datasets: [{
+              label: 'Sales by Date',
+              backgroundColor: 'blue',
+              borderColor: 'rgb(255, 99, 132)',
+              data: [],
+              fill: false
+          }]
+      },
+      options: {
+          tooltips: {
+              mode: 'index'
+          }
+      }
+  });
+}
+
 
 function userFilter(users) {
   $("#users").empty();
@@ -2530,22 +2593,24 @@ $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
   end_date = picker.endDate.toDate().toJSON();
 
   loadTransactions();
+  
 });
 
 function authenticate() {
   $("#loading").append(
     `<div id="load">
-    <form id="account">
-      <div class="form-group">
-        <input type="text" placeholder="Username" name="username" class="form-control">
-      </div>
-      <div class="form-group">
-        <input type="password" placeholder="Password" name="password" class="form-control">
-      </div>
-      <div class="form-group">
-        <input type="submit" class="btn btn-default" value="Login">
-      </div>
-    </form>`
+      <form id="account">
+        <div class="form-group">
+          <input type="text" placeholder="Username" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" name="password" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-secondary" value="Login">
+        </div>
+      </form>
+    </div>`
   );
 }
 
