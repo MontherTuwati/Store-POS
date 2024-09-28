@@ -154,7 +154,7 @@ app.get( "/check", function ( req, res ) {
         _id: 1
 }, function ( err, docs ) {
         if(!docs) {
-            let User = { 
+            let User = {
                 "_id": 1,
                 "username": "admin",
                 "password": btoa("admin"),
@@ -165,10 +165,9 @@ app.get( "/check", function ( req, res ) {
                 "perm_users": 1,
                 "perm_settings": 1,
                 "status": ""
-              }
-            usersDB.insert( User, function ( err, user ) {                            
+            }
+            usersDB.insert( User, function ( err, user ) {
             });
         }
     } );
 } );
- 

@@ -2652,7 +2652,7 @@ $("#quit").click(function () {
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
-    confirmButtonText: "Close Application",
+    confirmButtonText: "Power Off",
     cancelButtonText: "Cancel",
     showDenyButton: true,
     denyButtonText: "Restart Application",
@@ -2669,6 +2669,8 @@ $("#quit").click(function () {
         ipcRenderer.send("app-quit", "");
       });
     } else if (result.isDenied) {
+      storage.delete("auth");
+      storage.delete("user");
       ipcRenderer.send("app-restart", "");
     }
   });

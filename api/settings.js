@@ -58,9 +58,9 @@ app.post( "/post", upload.single('imagename'), function ( req, res ) {
     if(req.body.remove == 1) {
         const path = process.env.APPDATA+"/POS/uploads/"+ req.body.img;
         try {
-          fs.unlinkSync(path)
+            fs.unlinkSync(path)
         } catch(err) {
-          console.error(err)
+            console.error(err)
         }
 
         if(!req.file) {
