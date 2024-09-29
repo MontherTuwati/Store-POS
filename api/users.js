@@ -7,7 +7,6 @@ app.use( bodyParser.json() );
 
 module.exports = app;
 
- 
 let usersDB = new Datastore( {
     filename: process.env.APPDATA+"/POS/server/databases/users.db",
     autoload: true
@@ -16,13 +15,11 @@ let usersDB = new Datastore( {
 
 usersDB.ensureIndex({ fieldName: '_id', unique: true });
 
-
 app.get( "/", function ( req, res ) {
     res.send( "Users API" );
 } );
 
 
-  
 app.get( "/user/:userId", function ( req, res ) {
     if ( !req.params.userId ) {
         res.status( 500 ).send( "ID field is required." );
@@ -58,7 +55,7 @@ app.get( "/logout/:userId", function ( req, res ) {
 
 
 
-app.post( "/login", function ( req, res ) {  
+app.post( "/login", function ( req, res ) {
     usersDB.findOne( {
         username: req.body.username,
         password: btoa(req.body.password)
@@ -149,11 +146,11 @@ app.post( "/post" , function ( req, res ) {
 });
 
 
-app.get( "/check", function ( req, res ) {
-    usersDB.findOne( {
+app.get("/check", function (req, res) {
+    usersDB.findOne({
         _id: 1
-}, function ( err, docs ) {
-        if(!docs) {
+    }, function (err, docs) {
+        if (!docs) {
             let User = {
                 "_id": 1,
                 "username": "admin",
@@ -165,9 +162,10 @@ app.get( "/check", function ( req, res ) {
                 "perm_users": 1,
                 "perm_settings": 1,
                 "status": ""
-            }
-            usersDB.insert( User, function ( err, user ) {
+            };
+            usersDB.insert(User, function (err, user) {
+                if (err) console.error("Error inserting admin user:", err);
             });
         }
-    } );
-} );
+    });
+});
