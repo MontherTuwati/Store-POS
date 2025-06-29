@@ -13,7 +13,6 @@ let transactionsDB = new Datastore({
   autoload: true
 });
 
-
 transactionsDB.ensureIndex({ fieldName: '_id', unique: true });
 
 app.get("/", function(req, res) {
@@ -27,8 +26,6 @@ app.get("/all", function(req, res) {
   });
 });
 
-
-
  
 app.get("/on-hold", function(req, res) {
   transactionsDB.find(
@@ -39,8 +36,6 @@ app.get("/on-hold", function(req, res) {
   );
 });
 
-
-
 app.get("/customer-orders", function(req, res) {
   transactionsDB.find(
     { $and: [{ customer: {$ne: "0"} }, { status: 0}, { ref_number: ""}]},
@@ -49,8 +44,6 @@ app.get("/customer-orders", function(req, res) {
     }
   );
 });
-
-
 
 app.get("/by-date", function(req, res) {
 
