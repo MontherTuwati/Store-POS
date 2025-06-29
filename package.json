@@ -1,12 +1,12 @@
 {
-  "name": "NexusPOS",
+  "name": "StorePOS",
   "version": "0.2.2",
-  "description": "MTPos of Sale is a desktop application developed by Nexus Technologies",
-  "author": "Nexus Technologies",
+  "description": "StorePOS of Sale is a desktop application developed by Monther Tuwati",
+  "author": "Monther Tuwati",
   "private": true,
   "main": "start.js",
   "build": {
-    "appId": "nexuspos.app",
+    "appId": "storepos.app",
     "directories": {
       "buildResources": "assets"
     },
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "async": "^3.2.5",
     "body-parser": "^1.18.2",
     "bootstrap": "^5.3.3",
