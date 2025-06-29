@@ -77,7 +77,8 @@
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
-    "electron": "cross-env NODE_ENV=dev nodemon --exec \"\"electron .\"\"",
+    "start": "electron start.js",
+    "electron": "electron start.js",
     "electron-build": "electron-builder",
     "dist:mac": "electron-builder --mac --universal",
     "dist:linux": "electron-builder --linux",

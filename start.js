@@ -32,7 +32,7 @@ const setupEvents = require('./installers/setupEvents')
  }
 
 // Set the log file location
-log.transports.file.file = `${app.getPath('userData')}/quicktill.log`;
+log.transports.file.file = `${app.getPath('userData')}/StorePOS.log`;
 log.transports.file.level = 'info'; // or 'debug', 'warn', 'error', etc.
 log.transports.file.format = '{h}:{i}:{s} {level} {text}';
 log.transports.console.level = false; // Disable console logging
