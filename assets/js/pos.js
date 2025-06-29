@@ -169,6 +169,7 @@ if (auth == undefined) {
     $("#stock_view").hide();
     $("#statistics_view").hide();
     $("#pos_view").hide();
+    $("#test_view").hide();
     $("#transactions_view").hide();
 
     loadCategories();
@@ -1203,9 +1204,10 @@ if (auth == undefined) {
       }
       
     });
-
+    
     $("#home").click(function () {
         $("#pos_view").hide();
+        $("#test_view").hide();
         $("#transactions_view").hide();
         $("#statistics_view").hide();
         $("#stock_view").hide();
@@ -1240,6 +1242,61 @@ if (auth == undefined) {
         $("#home_view").hide();
         $("#pos_view").show();
     });
+
+    $("#testui").click(function () {
+      $("#home_view").hide();
+      $("#test_view").show();
+    });
+
+    $(document).ready(function() {
+      // Select all buttons in the test_view
+      const $buttons = $('#test_view .btn-square');
+  
+      // Function to remove 'active' class from all buttons
+      function clearActiveClasses() {
+          $buttons.removeClass('active');
+      }
+  
+      // Add 'active' class to the Dashboard button by default
+      const $dashboardButton = $buttons.first(); // Assuming the Dashboard button is the first one
+      $dashboardButton.addClass('active');
+  
+      // Add click event listeners to dynamically switch 'active' class when a button is clicked
+      $buttons.on('click', function() {
+          clearActiveClasses();
+          $(this).addClass('active'); // Add 'active' class to the clicked button
+      });
+    });
+  
+    $(document).ready(function() {
+      function updateDateTime() {
+          const now = new Date();
+  
+          // Get the components of the date
+          const day = now.getDate();
+          const monthNames = [
+              "January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"
+          ];
+          const month = monthNames[now.getMonth()];
+          const year = now.getFullYear();
+          const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+          const weekDay = weekDayNames[now.getDay()];
+  
+          // Get hours and minutes
+          const hours = now.getHours().toString().padStart(2, '0'); // Pad with zero if necessary
+          const minutes = now.getMinutes().toString().padStart(2, '0');
+  
+          // Construct the date and time string
+          const dateTimeString = `${day} ${month} ${year} ${weekDay} | ${hours}:${minutes}`;
+          $('#currentDateTime').text(dateTimeString);
+      }
+  
+      // Update the date and time every second
+      setInterval(updateDateTime, 1000);
+      updateDateTime(); // Call once to initialize immediately
+  });
+  
 
     $("#viewRefOrders").click(function () {
       setTimeout(function () {
@@ -2598,21 +2655,29 @@ $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
 
 function authenticate() {
   $("#loading").append(
-    `<div id="load">
-      <form id="account">
-        <div class="form-group">
-          <input type="text" placeholder="Username" name="username" class="form-control">
+    `<div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="mySmallModalLabel">Sign In</h4>
         </div>
-        <div class="form-group">
-          <input type="password" placeholder="Password" name="password" class="form-control">
+        <div class="modal-body">
+          <form id="account">
+            <div class="form-group">
+              <input type="text" placeholder="Username" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" name="password" class="form-control">
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-secondary" value="Login">
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <input type="submit" class="btn btn-secondary" value="Login">
-        </div>
-      </form>
+      </div>
     </div>`
   );
 }
+
 
 $("body").on("submit", "#account", function (e) {
   e.preventDefault();
@@ -2663,15 +2728,28 @@ $("#quit").click(function () {
     }
   }).then((result) => {
     if (result.isConfirmed) {
-      $.get(api + "users/logout/" + user._id, function (data) {
-        storage.delete("auth");
-        storage.delete("user");
-        ipcRenderer.send("app-quit", "");
-      });
+      $.get(api + "users/logout/" + user._id)
+        .done(function () {
+          // Successful logout, proceed with quitting
+          storage.delete("auth");
+          storage.delete("user");
+          ipcRenderer.send("app-quit", "");
+        })
+        .fail(function () {
+          Swal.fire("Error", "Failed to log out. Please try again.", "error");
+        });
     } else if (result.isDenied) {
-      storage.delete("auth");
-      storage.delete("user");
-      ipcRenderer.send("app-restart", "");
+      $.get(api + "users/logout/" + user._id)
+        .done(function () {
+          // Successful logout, proceed with restarting
+          storage.delete("auth");
+          storage.delete("user");
+          ipcRenderer.send("app-restart", "");
+        })
+        .fail(function () {
+          Swal.fire("Error", "Failed to log out. Please try again.", "error");
+        });
     }
   });
 });
+
