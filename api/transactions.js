@@ -1,146 +1,173 @@
-let app = require("express")();
-let server = require("http").Server(app);
-let bodyParser = require("body-parser");
-let Datastore = require("nedb");
-let Inventory = require("./inventory");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const db = require("../db");
+const Inventory = require("./inventory");
 
 app.use(bodyParser.json());
 
 module.exports = app;
- 
-let transactionsDB = new Datastore({
-  filename: process.env.APPDATA+"/POS/server/databases/transactions.db",
-  autoload: true
-});
 
-transactionsDB.ensureIndex({ fieldName: '_id', unique: true });
+// Create transactions table if it doesn't exist
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS transactions (
+    _id TEXT PRIMARY KEY,
+    order_id TEXT,
+    ref_number TEXT,
+    discount REAL,
+    customer TEXT,
+    status INTEGER,
+    subtotal REAL,
+    tax REAL,
+    order_type INTEGER,
+    items TEXT,
+    date TEXT,
+    payment_type TEXT,
+    payment_info TEXT,
+    total REAL,
+    paid REAL,
+    change REAL,
+    till INTEGER,
+    mac TEXT,
+    user TEXT,
+    user_id INTEGER
+  )
+`).run();
 
-app.get("/", function(req, res) {
+// Routes
+app.get("/", (req, res) => {
   res.send("Transactions API");
 });
 
- 
-app.get("/all", function(req, res) {
-  transactionsDB.find({}, function(err, docs) {
-    res.send(docs);
-  });
+app.get("/all", (req, res) => {
+  try {
+    const transactions = db.prepare("SELECT * FROM transactions").all();
+    transactions.forEach(t => t.items = JSON.parse(t.items || "[]"));
+    res.send(transactions);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
- 
-app.get("/on-hold", function(req, res) {
-  transactionsDB.find(
-    { $and: [{ ref_number: {$ne: ""}}, { status: 0  }]},    
-    function(err, docs) {
-      if (docs) res.send(docs);
-    }
-  );
+app.get("/on-hold", (req, res) => {
+  try {
+    const rows = db
+      .prepare("SELECT * FROM transactions WHERE ref_number != '' AND status = 0")
+      .all();
+    rows.forEach(r => r.items = JSON.parse(r.items || "[]"));
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.get("/customer-orders", function(req, res) {
-  transactionsDB.find(
-    { $and: [{ customer: {$ne: "0"} }, { status: 0}, { ref_number: ""}]},
-    function(err, docs) {
-      if (docs) res.send(docs);
-    }
-  );
+app.get("/customer-orders", (req, res) => {
+  try {
+    const rows = db
+      .prepare("SELECT * FROM transactions WHERE customer != '0' AND status = 0 AND ref_number = ''")
+      .all();
+    rows.forEach(r => r.items = JSON.parse(r.items || "[]"));
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.get("/by-date", function(req, res) {
+app.get("/by-date", (req, res) => {
+  const { start, end, status, user, till } = req.query;
+  const filters = ["date >= ? AND date <= ?", "status = ?"];
+  const params = [start, end, parseInt(status)];
 
-  let startDate = new Date(req.query.start);
-  let endDate = new Date(req.query.end);
-
-  if(req.query.user == 0 && req.query.till == 0) {
-      transactionsDB.find(
-        { $and: [{ date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() }}, { status: parseInt(req.query.status) }] },
-        function(err, docs) {
-          if (docs) res.send(docs);
-        }
-      );
+  if (user != 0) {
+    filters.push("user_id = ?");
+    params.push(parseInt(user));
   }
 
-  if(req.query.user != 0 && req.query.till == 0) {
-    transactionsDB.find(
-      { $and: [{ date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() }}, { status: parseInt(req.query.status) }, { user_id: parseInt(req.query.user) }] },
-      function(err, docs) {
-        if (docs) res.send(docs);
-      }
+  if (till != 0) {
+    filters.push("till = ?");
+    params.push(parseInt(till));
+  }
+
+  try {
+    const query = `SELECT * FROM transactions WHERE ${filters.join(" AND ")}`;
+    const rows = db.prepare(query).all(...params);
+    rows.forEach(r => r.items = JSON.parse(r.items || "[]"));
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.post("/new", (req, res) => {
+  try {
+    const tx = req.body;
+    if (!tx._id) tx._id = Date.now().toString();
+    const stmt = db.prepare(`
+      INSERT INTO transactions (
+        _id, order_id, ref_number, discount, customer, status, subtotal,
+        tax, order_type, items, date, payment_type, payment_info,
+        total, paid, change, till, mac, user, user_id
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    stmt.run(
+      tx._id, tx.order || tx._id, tx.ref_number, tx.discount, JSON.stringify(tx.customer), tx.status,
+      tx.subtotal, tx.tax, tx.order_type, JSON.stringify(tx.items), tx.date,
+      tx.payment_type, tx.payment_info, tx.total, tx.paid, tx.change,
+      tx.till, tx.mac, tx.user, tx.user_id
     );
-  }
 
-  if(req.query.user == 0 && req.query.till != 0) {
-    transactionsDB.find(
-      { $and: [{ date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() }}, { status: parseInt(req.query.status) }, { till: parseInt(req.query.till) }] },
-      function(err, docs) {
-        if (docs) res.send(docs);
-      }
-    );
-  }
-
-  if(req.query.user != 0 && req.query.till != 0) {
-    transactionsDB.find(
-      { $and: [{ date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() }}, { status: parseInt(req.query.status) }, { till: parseInt(req.query.till) }, { user_id: parseInt(req.query.user) }] },
-      function(err, docs) {
-        if (docs) res.send(docs);
-      }
-    );
-  }
-
-});
-
-
-app.post("/new", function(req, res) {
-  let newTransaction = req.body;
-  transactionsDB.insert(newTransaction, function(err, transaction) {    
-    if (err) {
-      return res.status(500).send(err);
-    }
-
-    // Handle transaction creation successfully
-    res.status(200).send("Transaction created successfully.");
-
-    // Call app.decrementInventory regardless of paid amount
-    Inventory.decrementInventory(newTransaction.items, function(err, result) {
-      if (err) {
-        console.error("Error decrementing inventory:", err);
-      } else {
-        console.log("Inventory updated successfully.");
-      }
+    Inventory.decrementInventory(tx.items, (err, result) => {
+      if (err) console.error("Error decrementing inventory:", err);
+      else console.log("Inventory updated successfully.");
     });
-  });
+
+    res.status(200).send("Transaction created successfully.");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
+app.put("/new", (req, res) => {
+  try {
+    const tx = req.body;
+    db.prepare(`
+      UPDATE transactions SET
+        ref_number = ?, discount = ?, customer = ?, status = ?, subtotal = ?,
+        tax = ?, order_type = ?, items = ?, date = ?, payment_type = ?, payment_info = ?,
+        total = ?, paid = ?, change = ?, till = ?, mac = ?, user = ?, user_id = ?
+      WHERE _id = ?
+    `).run(
+      tx.ref_number, tx.discount, JSON.stringify(tx.customer), tx.status, tx.subtotal,
+      tx.tax, tx.order_type, JSON.stringify(tx.items), tx.date, tx.payment_type, tx.payment_info,
+      tx.total, tx.paid, tx.change, tx.till, tx.mac, tx.user, tx.user_id, tx._id
+    );
 
-
-app.put("/new", function(req, res) {
-  let oderId = req.body._id;
-  transactionsDB.update( {
-      _id: oderId
-  }, req.body, {}, function (
-      err,
-      numReplaced,
-      order
-  ) {
-      if ( err ) res.status( 500 ).send( err );
-      else res.sendStatus( 200 );
-  } );
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
+app.post("/delete", (req, res) => {
+  try {
+    db.prepare("DELETE FROM transactions WHERE _id = ?").run(req.body.orderId);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
-app.post( "/delete", function ( req, res ) {
- let transaction = req.body;
-  transactionsDB.remove( {
-      _id: transaction.orderId
-  }, function ( err, numRemoved ) {
-      if ( err ) res.status( 500 ).send( err );
-      else res.sendStatus( 200 );
-  } );
-} );
-
-
-
-app.get("/:transactionId", function(req, res) {
-  transactionsDB.find({ _id: req.params.transactionId }, function(err, doc) {
-    if (doc) res.send(doc[0]);
-  });
+app.get("/:transactionId", (req, res) => {
+  try {
+    const row = db.prepare("SELECT * FROM transactions WHERE _id = ?").get(req.params.transactionId);
+    if (row) {
+      row.items = JSON.parse(row.items || "[]");
+      res.send(row);
+    } else {
+      res.status(404).send("Transaction not found");
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });

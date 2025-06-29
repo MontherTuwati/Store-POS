@@ -1,182 +1,153 @@
-const app = require( "express" )();
-const server = require( "http" ).Server( app );
-const bodyParser = require( "body-parser" );
-const Datastore = require( "nedb" );
-const async = require( "async" );
-const fileUpload = require('express-fileupload');
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
 const multer = require("multer");
-const fs = require('fs');
-
-
-const storage = multer.diskStorage({
-    destination: process.env.APPDATA+'/POS/uploads',
-    filename: function(req, file, callback){
-        callback(null, Date.now() + '.jpg'); // 
-    }
-});
-
-
-let upload = multer({storage: storage});
+const fs = require("fs");
+const path = require("path");
+const db = require("../db");
 
 app.use(bodyParser.json());
 
-
-module.exports = app;
-
- 
-let inventoryDB = new Datastore( {
-    filename: process.env.APPDATA+"/POS/server/databases/inventory.db",
-    autoload: true
-} );
-
-
-inventoryDB.ensureIndex({ fieldName: '_id', unique: true });
-
- 
-app.get( "/", function ( req, res ) {
-    res.send( "Inventory API" );
-} );
-
-
- 
-app.get( "/product/:productId", function ( req, res ) {
-    if ( !req.params.productId ) {
-        res.status( 500 ).send( "ID field is required." );
-    } else {
-        inventoryDB.findOne( {
-            _id: parseInt(req.params.productId)
-        }, function ( err, product ) {
-            res.send( product );
-        } );
-    }
-} );
-
-
- 
-app.get( "/products", function ( req, res ) {
-    inventoryDB.find( {}, function ( err, docs ) {
-        res.send( docs );
-    } );
-} );
-
-
- 
-app.post( "/product", upload.single('imagename'), function ( req, res ) {
-
-    let image = '';
-
-    if(req.body.img != "") {
-        image = req.body.img;        
-    }
-
-    if(req.file) {
-        image = req.file.filename;  
-    }
- 
-
-    if(req.body.remove == 1) {
-        const path = './resources/app/public/uploads/product_image/'+ req.body.img;
-        try {
-          fs.unlinkSync(path)
-        } catch(err) {
-          console.error(err)
-        }
-
-        if(!req.file) {
-            image = '';
-        }
-    }
-    
-    let Product = {
-        _id: parseInt(req.body.id),
-        price: req.body.price,
-        category: req.body.category,
-        quantity: req.body.quantity == "" ? 0 : req.body.quantity,
-        name: req.body.name,
-        stock: req.body.stock == "on" ? 0 : 1,  
-        barcode: req.body.barcode?req.body.barcode: parseInt(req.body.id),  
-        img: image        
-    }
-
-    if(req.body.id == "") { 
-        Product._id = Math.floor(Date.now() / 1000);
-        inventoryDB.insert( Product, function ( err, product ) {
-            if ( err ) res.status( 500 ).send( err );
-            else res.send( product );
-        });
-    }
-    else { 
-        inventoryDB.update( {
-            _id: parseInt(req.body.id)
-        }, Product, {}, function (
-            err,
-            numReplaced,
-            product
-        ) {
-            if ( err ) res.status( 500 ).send( err );
-            else res.sendStatus( 200 );
-        } );
-
-    }
-
+const storage = multer.diskStorage({
+  destination: process.env.APPDATA + "/POS/uploads",
+  filename: (req, file, cb) => cb(null, Date.now() + ".jpg"),
 });
 
+const upload = multer({ storage });
+module.exports = app;
 
+// Initialize table
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS inventory (
+    _id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    category TEXT,
+    quantity INTEGER DEFAULT 0,
+    stock INTEGER DEFAULT 1,
+    barcode TEXT,
+    img TEXT
+  )
+`).run();
 
- 
-app.delete( "/product/:productId", function ( req, res ) {
-    inventoryDB.remove( {
-        _id: parseInt(req.params.productId)
-    }, function ( err, numRemoved ) {
-        if ( err ) res.status( 500 ).send( err );
-        else res.sendStatus( 200 );
-    } );
-} );
+app.get("/", (req, res) => {
+  res.send("Inventory API");
+});
 
- 
+app.get("/product/:productId", (req, res) => {
+  const id = parseInt(req.params.productId);
+  if (!id) return res.status(400).send("ID field is required.");
+  try {
+    const product = db.prepare("SELECT * FROM inventory WHERE _id = ?").get(id);
+    res.send(product || {});
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
-app.post( "/product/sku", function ( req, res ) {
-    var request = req.body;
-    inventoryDB.findOne( {
-            barcode: request.skuCode
-    }, function ( err, product ) {
-         res.send( product );
-    } );
-} );
+app.get("/products", (req, res) => {
+  try {
+    const products = db.prepare("SELECT * FROM inventory").all();
+    res.send(products);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
- 
+app.post("/product", upload.single("imagename"), (req, res) => {
+  try {
+    let image = "";
+    const body = req.body;
 
+    if (body.img) image = body.img;
+    if (req.file) image = req.file.filename;
 
-app.decrementInventory = function ( products, callback ) {
+    if (body.remove == 1) {
+      const imgPath = path.join(process.env.APPDATA, "POS/uploads", body.img);
+      try {
+        fs.unlinkSync(imgPath);
+        if (!req.file) image = "";
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-    async.eachSeries( products, function ( transactionProduct, callback ) {
-        inventoryDB.findOne( {
-            _id: parseInt(transactionProduct.id)
-        }, function (
-            err,
-            product
-        ) {
-    
-            if ( !product || !product.quantity ) {
-                callback();
-            } else {
-                let updatedQuantity =
-                    parseInt( product.quantity) -
-                    parseInt( transactionProduct.quantity );
+    const id = body.id ? parseInt(body.id) : Math.floor(Date.now() / 1000);
 
-                inventoryDB.update( {
-                        _id: parseInt(product._id)
-                    }, {
-                        $set: {
-                            quantity: updatedQuantity
-                        }
-                    }, {},
-                    callback
-                );
-            }
-        } );
-    }, function(err) {
-        if (err) callback(err);
-        else callback(null, "Inventory updated successfully.");
-    });
+    const product = {
+      _id: id,
+      name: body.name,
+      price: parseFloat(body.price),
+      category: body.category,
+      quantity: body.quantity === "" ? 0 : parseInt(body.quantity),
+      stock: body.stock === "on" ? 0 : 1,
+      barcode: body.barcode || id.toString(),
+      img: image,
+    };
+
+    const exists = db.prepare("SELECT COUNT(*) AS count FROM inventory WHERE _id = ?").get(id).count;
+
+    if (exists) {
+      db.prepare(`
+        UPDATE inventory SET
+          name = @name,
+          price = @price,
+          category = @category,
+          quantity = @quantity,
+          stock = @stock,
+          barcode = @barcode,
+          img = @img
+        WHERE _id = @_id
+      `).run(product);
+
+      res.sendStatus(200);
+    } else {
+      db.prepare(`
+        INSERT INTO inventory (_id, name, price, category, quantity, stock, barcode, img)
+        VALUES (@_id, @name, @price, @category, @quantity, @stock, @barcode, @img)
+      `).run(product);
+
+      res.send(product);
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.delete("/product/:productId", (req, res) => {
+  try {
+    const id = parseInt(req.params.productId);
+    db.prepare("DELETE FROM inventory WHERE _id = ?").run(id);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.post("/product/sku", (req, res) => {
+  try {
+    const product = db.prepare("SELECT * FROM inventory WHERE barcode = ?").get(req.body.skuCode);
+    res.send(product || {});
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.decrementInventory = function (products, callback) {
+  try {
+    const update = db.prepare("UPDATE inventory SET quantity = ? WHERE _id = ?");
+    const get = db.prepare("SELECT quantity FROM inventory WHERE _id = ?");
+
+    for (let product of products) {
+      const current = get.get(parseInt(product.id));
+      if (!current || typeof current.quantity !== "number") continue;
+
+      const newQty = current.quantity - parseInt(product.quantity);
+      update.run(newQty, parseInt(product.id));
+    }
+
+    callback(null, "Inventory updated successfully.");
+  } catch (err) {
+    callback(err);
+  }
 };

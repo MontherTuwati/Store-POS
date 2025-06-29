@@ -1,71 +1,97 @@
-let app = require("express")();
-let server = require("http").Server(app);
-let bodyParser = require("body-parser");
-let Datastore = require("nedb");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const db = require("../db");
 
 app.use(bodyParser.json());
 
 module.exports = app;
 
-let statisticsDB = new Datastore({
-  filename: process.env.APPDATA+"/POS/server/databases/statistics.db",
-  autoload: true
-});
+// Create the statistics table if it doesn't exist
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS statistics (
+    _id TEXT PRIMARY KEY,
+    date TEXT,
+    value REAL,
+    description TEXT
+  )
+`).run();
 
-statisticsDB.ensureIndex({ fieldName: '_id', unique: true });
-
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.send("Statistics API");
 });
 
-app.get("/sales", function(req, res) {
-  statisticsDB.find({}, function(err, docs) {
-    res.send(docs);
-  });
+app.get("/sales", (req, res) => {
+  try {
+    const rows = db.prepare("SELECT * FROM statistics").all();
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.get("/sales-by-date", function(req, res) {
-  let startDate = new Date(req.query.start);
-  let endDate = new Date(req.query.end);
+app.get("/sales-by-date", (req, res) => {
+  const start = new Date(req.query.start).toISOString();
+  const end = new Date(req.query.end).toISOString();
 
-  statisticsDB.find(
-    { date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() }},
-    function(err, docs) {
-      if (docs) res.send(docs);
-    }
-  );
+  try {
+    const rows = db
+      .prepare("SELECT * FROM statistics WHERE date >= ? AND date <= ?")
+      .all(start, end);
+    res.send(rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-// Add more routes as needed for other statistics
+app.post("/new", (req, res) => {
+  try {
+    const stat = req.body;
+    if (!stat._id) stat._id = Date.now().toString();
 
-app.post("/new", function(req, res) {
-  let newStatistic = req.body;
-  statisticsDB.insert(newStatistic, function(err, statistic) {
-    if (err) {
-      return res.status(500).send(err);
-    }
+    db.prepare(`
+      INSERT INTO statistics (_id, date, value, description)
+      VALUES (?, ?, ?, ?)
+    `).run(stat._id, stat.date, stat.value, stat.description);
+
     res.status(200).send("Statistic created successfully.");
-  });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.put("/update", function(req, res) {
-  let statId = req.body._id;
-  statisticsDB.update({_id: statId}, req.body, {}, function(err, numReplaced) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200);
-  });
+app.put("/update", (req, res) => {
+  const stat = req.body;
+
+  try {
+    db.prepare(`
+      UPDATE statistics SET
+        date = ?,
+        value = ?,
+        description = ?
+      WHERE _id = ?
+    `).run(stat.date, stat.value, stat.description, stat._id);
+
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.post("/delete", function(req, res) {
-  let statistic = req.body;
-  statisticsDB.remove({_id: statistic._id}, function(err, numRemoved) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200);
-  });
+app.post("/delete", (req, res) => {
+  try {
+    db.prepare("DELETE FROM statistics WHERE _id = ?").run(req.body._id);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-app.get("/:statisticId", function(req, res) {
-  statisticsDB.find({_id: req.params.statisticId}, function(err, doc) {
-    if (doc) res.send(doc[0]);
-  });
+app.get("/:statisticId", (req, res) => {
+  try {
+    const stat = db.prepare("SELECT * FROM statistics WHERE _id = ?").get(req.params.statisticId);
+    res.send(stat || {});
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
