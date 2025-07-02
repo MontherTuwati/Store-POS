@@ -169,7 +169,6 @@ if (auth == undefined) {
     $("#stock_view").hide();
     $("#statistics_view").hide();
     $("#pos_view").hide();
-    $("#test_view").hide();
     $("#transactions_view").hide();
 
     loadCategories();
@@ -644,14 +643,11 @@ if (auth == undefined) {
         if (buttonValue == "Card") {
           paymentType = 2;
         }
-        if (buttonValue == "Mpesa") {
-          paymentType = 3;
-        }
       });
     });
 
     $.fn.submitDueOrder = function (status) {
-      // setting value of card info/mpesa code to empty
+      // setting value of card info code to empty
       $("#paymentInfo").val("");
 
       let items = "";
@@ -694,9 +690,6 @@ if (auth == undefined) {
 
         case 2:
           type = "Card";
-          break;
-        case 3:
-          type = "Mpesa";
           break;
 
         default:
@@ -1207,7 +1200,6 @@ if (auth == undefined) {
     
     $("#home").click(function () {
         $("#pos_view").hide();
-        $("#test_view").hide();
         $("#transactions_view").hide();
         $("#statistics_view").hide();
         $("#stock_view").hide();
@@ -1241,31 +1233,6 @@ if (auth == undefined) {
     $("#pointofsale").click(function () {
         $("#home_view").hide();
         $("#pos_view").show();
-    });
-
-    $("#testui").click(function () {
-      $("#home_view").hide();
-      $("#test_view").show();
-    });
-
-    $(document).ready(function() {
-      // Select all buttons in the test_view
-      const $buttons = $('#test_view .btn-square');
-  
-      // Function to remove 'active' class from all buttons
-      function clearActiveClasses() {
-          $buttons.removeClass('active');
-      }
-  
-      // Add 'active' class to the Dashboard button by default
-      const $dashboardButton = $buttons.first(); // Assuming the Dashboard button is the first one
-      $dashboardButton.addClass('active');
-  
-      // Add click event listeners to dynamically switch 'active' class when a button is clicked
-      $buttons.on('click', function() {
-          clearActiveClasses();
-          $(this).addClass('active'); // Add 'active' class to the clicked button
-      });
     });
   
     $(document).ready(function() {
@@ -2487,9 +2454,6 @@ $.fn.viewTransaction = function (index) {
       break;
     case 2:
       type = "Card";
-      break;
-    case 3:
-      type = "Mpesa";
       break;
     default:
       type = "Cash";
