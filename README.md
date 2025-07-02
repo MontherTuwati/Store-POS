@@ -1,103 +1,149 @@
-# Quick Till Point of Sale
+# 🧾 StorePOS Point of Sale (POS)
 
-![POS](screenshots/quicktill_pos.png)
+![StorePOS Screenshot](screenshots/storepos_pos.png)
 
-Desktop Point of Sale app built with electron
+**StorePOS** is a sleek, offline-first desktop Point of Sale application built with Electron and Node.js. Designed for small to medium-sized retail environments, it offers essential sales functionality, multi-device networking, and intuitive user management — all in a single packaged executable.
 
-**Features:**
+---
 
-- Can be used by multiple PC's on a network with one central database.
-- Receipt Printing.
-- Search for product by barcode.
-- Staff accounts and permissions.
-- Products and Categories.
-- Basic Stock Management.
-- Open Tabs (Orders).
-- Customer Database.
-- Transaction History.
-- Filter Transactions by Till, Cashier or Status.
-- Filter Transactions by Date Range.
-- Generate & print barcodes for each product
+## ✨ Key Features
 
-## Development
+- 🖥 Multi-terminal: Connect multiple PCs to one shared database
+- 🧾 Receipt printing with customizable layout
+- 🔍 Barcode scanning & product search
+- 👥 Staff accounts with permission levels
+- 🛒 Product and category management
+- 📦 Basic inventory control
+- 🧾 Open Tabs (saved orders)
+- 📇 Customer database
+- 📊 Transaction history with filters:
+  - By Till
+  - By Cashier
+  - By Date Range
+  - By Status
+- 🖨 Generate & print barcodes for products
 
-Quicktill is an offline-first application built on jQuery, Node, and Electron. It utilizes a local NeDB as the database by default.
+---
 
-### Pre-requisites
+## ⚙️ Tech Stack
 
-To get the dev environment up and running you need to first set up Node.js version
-16.14.0 or greater and npm. For this, we suggest using
-[nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- 🖥 **Electron** – for cross-platform desktop delivery  
+- 🧠 **Node.js + Express** – for API layer  
+- 🧾 **jQuery** – legacy-friendly UI logic  
+- 💽 **SQLite (or NeDB)** – for offline-first local data storage  
 
-Next, you will need to install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable).
+---
 
-### Clone and Run
+## 🚀 Getting Started
 
-Once you are through the Pre-requisites, you can run the following commands to
-setup Quicktill for development and building:
+### 🔧 Prerequisites
+
+- **Node.js v16.14.0 or higher**  
+  Use [nvm](https://github.com/nvm-sh/nvm) for safe version management.
+
+- **Yarn** package manager  
+  [Install Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+
+---
+
+### 📦 Setup & Run (Development)
 
 ```bash
-# clone the repository
-git clone https://github.com/Ayuen-madyt/Quicktill.git
+# Clone the repo
+git clone https://github.com/MontherTuwati/StorePOS.git
 
-# change directory
-cd Quicktill
+cd StorePOS
 
-# install dependencies
-yarn
+# Install dependencies
+yarn install
 ```
 
-#### Development
-
-To run Quicktill in development mode:
+#### 🛠 Run in Development Mode
 
 ```bash
-# start the electron app
 yarn electron
 ```
 
-#### Build
-
-To build Quicktill and create an installer:
+#### 📦 Build for Production
 
 ```bash
-# start the electron app
 yarn electron-build
 ```
 
-**Note: Build Target**
-By default the above command will build for your computer's operating system and
-architecture. To build for other environments (example: for linux from a windows
-computer) check the _Building_ section at
-[electron.build/cli](https://www.electron.build/cli).
+> 📝 The build will target your current OS.  
+To build for other platforms (e.g., Windows from Linux), refer to: [electron.build/cli](https://www.electron.build/cli)
 
-### Project Contribution Guidelines
+---
 
-Thank you for your interest in contributing to Quicktill POS! This document outlines the guidelines for contributing to our repository. Please take a moment to read through this guide before making any contributions. By following these guidelines, you will help us maintain a high-quality codebase and ensure a smooth contribution process.
+## 🧑‍💻 Contributing
 
-### Branching
+We welcome community contributions! Please follow this workflow:
 
-- Create a new branch for each significant contribution or bug fix.
-- Choose a descriptive name for your branch that reflects the purpose of your changes.-
-- To create a new branch: git checkout -b branch-name.
+### 🌱 Branching
 
-### Development Workflow
+- Create a new branch for each feature or bugfix:
 
-- Fork the repository first.
-- Familiarize yourself with the project's technology stack, including jQuery, Node, and Electron.
-- Make your code changes, following the existing coding style and conventions.
-- Test your changes thoroughly, ensuring they work seamlessly with Quicktill's offline functionality.
-- Commit your changes with a clear and descriptive commit message.
-- Push your changes to your forked repository.
-- Open a pull request (PR) from your branch to the master branch of the main repository.
+```bash
+git checkout -b feature/short-description
+```
 
-### Pull Request Guidelines
+### 🛠 Development Flow
 
-- Each PR should have a clear and descriptive title.
-- Include a concise summary of the changes made in the description.
-- Provide any relevant information or context that may help reviewers understand the purpose and impact of the changes.
+- Fork the repo and clone your fork
+- Code using existing style (jQuery + Express + Electron)
+- Test thoroughly (including offline behavior)
+- Commit clearly:
 
+```bash
+git commit -m "Fix: resolves incorrect cash rounding"
+```
 
-## License
+- Push to your fork and open a Pull Request (PR)
 
-[GNU Affero General Public License v3.0](LICENSE)
+### ✅ Pull Request Guidelines
+
+- Title should reflect the core change
+- PR description must include:
+  - Summary of changes
+  - Screenshot or GIF (for UI updates)
+  - Related issues (if any)
+
+---
+
+## 📁 Project Structure
+
+```bash
+.
+├── server/              # Express.js APIs
+├── public/              # HTML, CSS, JS assets
+├── database/            # SQLite file storage
+├── start.js             # Electron app entry
+├── index.html           # Main app window
+└── assets/              # Icons, branding, etc.
+```
+
+---
+
+## 📄 License
+
+Licensed under the  
+**[GNU Affero General Public License v3.0](LICENSE)**
+
+> 💬 *For custom builds or commercial licensing, reach out directly.*
+
+---
+
+## 🙌 Maintainer
+
+**Monther Tuwati**  
+[github.com/MontherTuwati](https://github.com/MontherTuwati)
+
+---
+
+## 🛣️ Roadmap Ideas
+
+- [ ] Multi-store cloud sync (SaaS mode)
+- [ ] Integrated Stripe/PayPal POS checkout
+- [ ] Time-based staff access controls
+- [ ] Mobile-friendly frontend (PWA)
+- [ ] Graph-based sales dashboard
