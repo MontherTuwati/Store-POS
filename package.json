@@ -27,7 +27,7 @@
         "nsis",
         "zip"
       ],
-      "icon": "assets/images/icon2.ico"
+      "icon": "assets/images/StorePOS.png"
     },
     "files": [
       "**/*",
@@ -65,7 +65,6 @@
     "macaddress": "^0.5.3",
     "moment": "^2.24.0",
     "multer": "^1.4.5-lts.1",
-    "nedb": "^1.8.0",
     "nodemon": "^3.1.4",
     "notiflix": "^3.2.6",
     "path": "^0.12.7",
