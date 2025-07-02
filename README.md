@@ -110,20 +110,6 @@ git commit -m "Fix: resolves incorrect cash rounding"
 
 ---
 
-## 📁 Project Structure
-
-```bash
-.
-├── server/              # Express.js APIs
-├── public/              # HTML, CSS, JS assets
-├── database/            # SQLite file storage
-├── start.js             # Electron app entry
-├── index.html           # Main app window
-└── assets/              # Icons, branding, etc.
-```
-
----
-
 ## 📄 License
 
 Licensed under the  
@@ -137,13 +123,3 @@ Licensed under the
 
 **Monther Tuwati**  
 [github.com/MontherTuwati](https://github.com/MontherTuwati)
-
----
-
-## 🛣️ Roadmap Ideas
-
-- [ ] Multi-store cloud sync (SaaS mode)
-- [ ] Integrated Stripe/PayPal POS checkout
-- [ ] Time-based staff access controls
-- [ ] Mobile-friendly frontend (PWA)
-- [ ] Graph-based sales dashboard
