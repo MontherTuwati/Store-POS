@@ -2,7 +2,7 @@
 
 ![StorePOS Screenshot](screenshots/storepos_pos.png)
 
-**StorePOS** is a sleek, offline-first desktop Point of Sale application built with Electron and Node.js. Designed for small to medium-sized retail environments, it offers essential sales functionality, multi-device networking, and intuitive user management — all in a single packaged executable.
+**StorePOS** is a sleek, offline-first desktop Point of Sale application built with Electron and Node.js. Designed for small to medium-sized retail environments, it offers essential sales functionality, multi-device networking, and intuitive user management all in a single packaged executable.
 
 ---
 
@@ -50,9 +50,9 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/MontherTuwati/StorePOS.git
+git clone https://github.com/MontherTuwati/Store-POS.git
 
-cd StorePOS
+cd Store-POS
 
 # Install dependencies
 yarn install
