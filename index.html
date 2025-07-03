@@ -70,72 +70,88 @@
                 
                 <div class="container-fluid">
                     <!--  Modal content for Home View -->
-                    <div id="home_view">
-                        <div class="container bg-light p-4 rounded shadow">
-                            <div class="row btn-container justify-content-center">
-                                <hr>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="pointofsale" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-pc-display-horizontal"></i> Point of Sale
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="stocks" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-basket2-fill"></i> Stocks
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <div class="btn-group w-100">
-                                            <button id="usersModal" data-bs-toggle="modal" data-bs-target="#Users" type="button" class="btn btn-primary btn-lg w-100">
-                                                <i class="bi bi-person-vcard-fill"></i> Users
+                    <div id="test_view">
+                        <div class="container p-4">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                    <div class="row g-4">
+                                        <!-- POS -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="pointofsale" class="btn home-button btn-lg w-100">
+                                                <i class="bi bi-pc-display-horizontal me-2"></i> Point of Sale
                                             </button>
-                                            <button id="add-user" data-bs-toggle="modal" type="button" class="btn btn-dark btn-lg w-100">
+                                            </div>
+                                        </div>
+
+                                        <!-- Stocks -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="stocks" class="btn home-button btn-lg w-100">
+                                                <i class="bi bi-basket2-fill me-2"></i> Stocks
+                                            </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Users + Add -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <div class="d-flex gap-2">
+                                                <button id="usersModal" class="btn home-button btn-lg w-75" data-bs-toggle="modal" data-bs-target="#Users">
+                                                <i class="bi bi-person-vcard-fill me-2"></i> Users
+                                                </button>
+                                                <button id="add-user" class="btn btn-dark btn-lg w-25" data-bs-toggle="modal">
                                                 <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Transactions -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="transactions" class="btn home-button btn-lg w-100">
+                                                <i class="bi bi-credit-card me-2"></i> Transactions
                                             </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Statistics -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="statistics" class="btn home-button btn-lg w-100">
+                                                <i class="bi bi-pie-chart-fill me-2"></i> Statistics
+                                            </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Settings -->
+                                        <div class="col-md-4">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="settings" class="btn home-button btn-lg w-100" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                                <i class="bi bi-gear-fill me-2"></i> Settings
+                                            </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Test UI -->
+                                        <div class="col-md-4 mx-auto">
+                                            <div class="card home-card text-center p-3">
+                                            <button id="testui" class="btn home-button btn-lg w-100">
+                                                <i class="bi bi-window me-2"></i> Test UI
+                                            </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="transactions" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-credit-card"></i> Transactions
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="statistics" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-pie-chart-fill"></i> Statistics
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="settings" data-bs-toggle="modal" data-bs-target="#settingsModal" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-gear-fill"></i> Settings
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center mb-4">
-                                    <div class="card p-3 shadow-sm rounded">
-                                        <button id="testui" type="button" class="btn btn-primary btn-lg w-100">
-                                            <i class="bi bi-pie-chart-fill"></i> Test UI
-                                        </button>
-                                    </div>
-                                </div>
-                                <hr>
                             </div>
                         </div>
                     </div>
+
                     
                                         
                     <!-- Modal content for Statistics View -->
-                    <div id="test_view" class="container-fluid p-4">
+                    <div id="home_view" class="container-fluid p-4">
                         <div class="row">
                             <!-- Sidebar Menu -->
                             <div class="col-md-2">
@@ -147,27 +163,28 @@
 
                                     <!-- Menu Buttons -->
                                     <div class="d-grid gap-3">
-                                        <button class="btn-square btn btn-block py-3 active">
-                                            <h3><i class="fa fa-chart-pie"></i></h3>
-                                            <h5>Dashboard</h5>
-                                        </button>
-                                        <button class="btn-square btn btn-block py-3">
-                                            <h3><i class="bi bi-pc-display"></i></h3>
-                                            <h5>Terminal</h5>
-                                        </button>
-                                        <button class="btn-square btn btn-block py-3">
-                                            <h3><i class="bi bi-box-seam-fill"></i></h3>
-                                            <h5>Stocks</h5>
-                                        </button>
-                                        <button class="btn-square btn btn-block py-3">
-                                            <h3><i class="fa fa-gear"></i></h3>
-                                            <h5>Settings</h5>
-                                        </button>
-                                        <button class="btn-square btn btn-block py-3">
-                                            <h3><i class="fa-solid fa-right-from-bracket"></i></h3>
-                                            <h5>Logout</h5>
-                                        </button>
-                                    </div>
+  <button id="dashboard" class="btn-square btn btn-block py-3 active">
+    <h3><i class="fa fa-chart-pie"></i></h3>
+    <h5>Dashboard</h5>
+  </button>
+  <button id="pointofsale" class="btn-square btn btn-block py-3">
+    <h3><i class="bi bi-pc-display"></i></h3>
+    <h5>Terminal</h5>
+  </button>
+  <button id="stocks" class="btn-square btn btn-block py-3">
+    <h3><i class="bi bi-box-seam-fill"></i></h3>
+    <h5>Stocks</h5>
+  </button>
+  <button id="settings" class="btn-square btn btn-block py-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
+    <h3><i class="fa fa-gear"></i></h3>
+    <h5>Settings</h5>
+  </button>
+  <button id="logout" class="btn-square btn btn-block py-3">
+    <h3><i class="fa-solid fa-right-from-bracket"></i></h3>
+    <h5>Logout</h5>
+  </button>
+</div>
+
                                 </div>
                             </div>
                     
