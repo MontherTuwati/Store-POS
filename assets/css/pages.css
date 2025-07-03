@@ -284,26 +284,30 @@ margin-right: 30px;
 #test_view .btn-square {
   width: 130px;  /* Set a specific width */
   height: 130px; /* Set the height equal to the width */
-  background-color: white; /* Default background */
-  color: black; /* Default text color */
+  background-color: #003049; /* Default background */
+  color: #FDFFFF; /* Default text color */
   text-align: center;
 }
 
 /* Active button styles */
 #test_view .btn-square.active {
-  background-color: #003049; /* Selected background color */
+  background-color: #6E8387; /* Selected background color */
   color: white; /* Text color for active buttons */
 }
 
 /* Style when the button is hovered over */
 #test_view .btn-square:hover {
-  background-color: #f0f0f0; /* Lighter hover effect */
+  background-color: #6E8387; /* Lighter hover effect */
+  color: #FDFFFF; 
+  border: 2px solid #003049;
+  outline-style: solid;
+  outline-color: #003049;
 }
 
 /* Style when the button is focused or active */
 #test_view .btn-square:focus,
 #test_view .btn-square:active {
-  background-color: #003049; /* Selected background color */
+  background-color: #6E8387; /* Selected background color */
   color: white; /* Text color for selected buttons */
 }
 
