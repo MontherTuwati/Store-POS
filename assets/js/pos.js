@@ -169,6 +169,7 @@ if (auth == undefined) {
     $("#stock_view").hide();
     $("#statistics_view").hide();
     $("#pos_view").hide();
+    $("#test_view").hide();
     $("#transactions_view").hide();
 
     loadCategories();
@@ -1207,6 +1208,7 @@ if (auth == undefined) {
         $("#transactions").show();
         $("#pointofsale").show();
         $("#statistics").show();
+        $("#test_view").hide();
         $("#stocks").show();
     });
 
@@ -1234,11 +1236,38 @@ if (auth == undefined) {
         $("#home_view").hide();
         $("#pos_view").show();
     });
+    
+
+    $("#testui").click(function () {
+      $("#home_view").hide();
+      $("#test_view").show();
+    });
+
+    $(document).ready(function() {
+      // Select all buttons in the test_view
+      const $buttons = $('#test_view .btn-square');
   
+      // Function to remove 'active' class from all buttons
+      function clearActiveClasses() {
+          $buttons.removeClass('active');
+      }
+  
+      // Add 'active' class to the Dashboard button by default
+      const $dashboardButton = $buttons.first(); // Assuming the Dashboard button is the first one
+      $dashboardButton.addClass('active');
+  
+      // Add click event listeners to dynamically switch 'active' class when a button is clicked
+      $buttons.on('click', function() {
+          clearActiveClasses();
+          $(this).addClass('active'); // Add 'active' class to the clicked button
+      });
+    });
+
+
     $(document).ready(function() {
       function updateDateTime() {
           const now = new Date();
-  
+          
           // Get the components of the date
           const day = now.getDate();
           const monthNames = [
