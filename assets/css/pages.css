@@ -200,10 +200,10 @@ margin-right: 30px;
   border-radius: 8px;
 }
 
-
 #home_view {
   padding: 20px;
 }
+
 
 #home_view .card {
   border-radius: 10px;
@@ -263,7 +263,7 @@ margin-right: 30px;
 
 /* Style when the button is hovered over */
 #home_view .btn-square:hover {
-  background-color: #6E8387; /* Lighter hover effect */
+  background-color: #121212; /* Lighter hover effect */
   color: #FDFFFF; 
   border: 2px solid #003049;
   outline-style: solid;
@@ -273,10 +273,9 @@ margin-right: 30px;
 /* Style when the button is focused or active */
 #home_view .btn-square:focus,
 #home_view .btn-square:active {
-  background-color: #6E8387; /* Selected background color */
+  background-color: #121212; /* Selected background color */
   color: white; /* Text color for selected buttons */
 }
-
 
 #productSales {
   height: 65vh;
