@@ -1266,31 +1266,33 @@ if (auth == undefined) {
 
     $(document).ready(function() {
       function updateDateTime() {
-          const now = new Date();
-          
-          // Get the components of the date
-          const day = now.getDate();
-          const monthNames = [
-              "January", "February", "March", "April", "May", "June",
-              "July", "August", "September", "October", "November", "December"
-          ];
-          const month = monthNames[now.getMonth()];
-          const year = now.getFullYear();
-          const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-          const weekDay = weekDayNames[now.getDay()];
-  
-          // Get hours and minutes
-          const hours = now.getHours().toString().padStart(2, '0'); // Pad with zero if necessary
-          const minutes = now.getMinutes().toString().padStart(2, '0');
-  
-          // Construct the date and time string
-          const dateTimeString = `${day} ${month} ${year} ${weekDay} | ${hours}:${minutes}`;
-          $('#currentDateTime').text(dateTimeString);
+        const now = new Date();
+
+        const day = now.getDate();
+        const monthNames = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+        const month = monthNames[now.getMonth()];
+        const year = now.getFullYear();
+        const weekDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const weekDay = weekDayNames[now.getDay()];
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+
+        const dateTimeString = `${day} ${month} ${year} ${weekDay} | ${hours}:${minutes}`;
+        $('#currentDateTime').text(dateTimeString);
       }
-  
-      // Update the date and time every second
-      setInterval(updateDateTime, 1000);
-      updateDateTime(); // Call once to initialize immediately
+
+      // Wait for POS view to exist in DOM
+      const waitForCurrentDateTime = setInterval(() => {
+        if ($('#currentDateTime').length) {
+          updateDateTime();
+          setInterval(updateDateTime, 1000); // Update every second
+          clearInterval(waitForCurrentDateTime); // Stop polling
+        }
+      }, 300);
+
   });
   
 
@@ -2745,4 +2747,60 @@ $("#quit").click(function () {
     }
   });
 });
+
+$("#logout-options").click(function () {
+  Swal.fire({
+    title: "What would you like to do?",
+    icon: "question",
+    showCancelButton: true,
+    showDenyButton: true,
+    confirmButtonText: "Logout",
+    cancelButtonText: "Power Off",
+    denyButtonText: "Restart",
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    denyButtonColor: "#f0ad4e",
+    customClass: {
+      confirmButton: 'swal2-confirm btn btn-danger',
+      cancelButton: 'swal2-cancel btn btn-secondary',
+      denyButton: 'swal2-deny btn btn-warning'
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Logout
+      $.get(api + "users/logout/" + user._id)
+        .done(function () {
+          storage.delete("auth");
+          storage.delete("user");
+          ipcRenderer.send("app-reload", "");
+        })
+        .fail(function () {
+          Swal.fire("Error", "Failed to log out. Please try again.", "error");
+        });
+    } else if (result.isDenied) {
+      // Restart App
+      $.get(api + "users/logout/" + user._id)
+        .done(function () {
+          storage.delete("auth");
+          storage.delete("user");
+          ipcRenderer.send("app-restart", "");
+        })
+        .fail(function () {
+          Swal.fire("Error", "Failed to log out. Please try again.", "error");
+        });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // Power Off
+      $.get(api + "users/logout/" + user._id)
+        .done(function () {
+          storage.delete("auth");
+          storage.delete("user");
+          ipcRenderer.send("app-quit", "");
+        })
+        .fail(function () {
+          Swal.fire("Error", "Failed to log out. Please try again.", "error");
+        });
+    }
+  });
+});
+
 
