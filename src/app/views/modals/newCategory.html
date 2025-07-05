@@ -1,0 +1,24 @@
+<!--  Modal content for New Category -->
+<div id="newCategory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mySmallModalLabel">Category
+                    <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="saveCategory">
+                    <div class="form-group">
+                        <label for="userName">Name</label>
+                        <input id="category_id" type="hidden" name="id">
+                        <input id="categoryName" type="text" required="required"  name="name" placeholder="Enter a category name" class="form-control" >
+                    </div>
+                
+                    <input type="submit" id="submitCategory" class="btn btn-primary btn-block waves-effect waves-light">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

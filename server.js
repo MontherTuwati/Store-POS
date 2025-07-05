@@ -28,12 +28,12 @@ app.get("/", function(req, res) {
   res.send("POS Server Online.");
 });
 
-app.use("/api/inventory", require("./api/inventory"));
-app.use("/api/customers", require("./api/customers"));
-app.use("/api/categories", require("./api/categories"));
-app.use("/api/settings", require("./api/settings"));
-app.use("/api/users", require("./api/users"));
-app.use("/api/statistics", require("./api/statistics"));
-app.use("/api", require("./api/transactions"));
+app.use("/api/inventory", require("./src/api/inventory"));
+app.use("/api/customers", require("./src/api/customers"));
+app.use("/api/categories", require("./src/api/categories"));
+app.use("/api/settings", require("./src/api/settings"));
+app.use("/api/users", require("./src/api/users"));
+app.use("/api/statistics", require("./src/api/statistics"));
+app.use("/api", require("./src/api/transactions"));
 
 server.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

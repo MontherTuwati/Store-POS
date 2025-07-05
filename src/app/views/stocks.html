@@ -1,0 +1,62 @@
+<!-- Content for Stock View -->
+<div id="stock_view">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <h4 class="col-8">Categories</h4>
+                                <div class="col">
+                                    <button id="newCategoryModal" data-bs-toggle="modal" data-bs-target="#newCategory" type="button" class="btn btn-warning waves-effect waves-light">
+                                    <i class="fa fa-plus"></i> New Category
+                                </button>
+                            </div>
+                            
+                            </div>
+                            <hr>
+                            <table class="table tablesaw-enhanced" id="categoryList">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Item Count</th> 
+                                        <th>Action</th>                                                                                                           
+                                    </tr>
+                                </thead>
+                                <tbody id="category_list"></tbody>
+                            </table>
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="col-md-12" id="all_products">
+                            <div class="row">
+                                <h3 class="col-10">Stocks</h3> 
+                                <div class="col">
+                                    <button id="newProductModal" data-bs-toggle="modal" data-bs-target="#newProduct" type="button" class="btn btn-warning">
+                                        <i class="fa fa-plus"></i> New Product
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table tablesaw-enhanced" id="productList">
+                                <thead>
+                                    <tr>                                                                      
+                                        <th>Barcode</th>                                      
+                                        <th>Item</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Category</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product_list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+    </div>
+</div>

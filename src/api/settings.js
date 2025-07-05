@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const db = require("../db");
+const db = require("../lib/db");
 
 app.use(bodyParser.json());
 

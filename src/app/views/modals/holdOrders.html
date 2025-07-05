@@ -1,0 +1,19 @@
+<!--  Modal content for Hold Orders -->
+<div id="holdOrdersModal" class="modal fade bs-example-modal-lg" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Open Orders</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="holdOrderInput" placeholder="Search order by reference" class="holdOrderInput form-control">
+                <div class="holdOrderKeyboard"></div>
+                <br>
+                <div class="row" style="height: 460px; overflow-x: hidden; overflow-y: scroll" id="randerHoldOrders">
+                    <p>please wait <span class="dot"></span> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

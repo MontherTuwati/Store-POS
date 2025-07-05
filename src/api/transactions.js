@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const db = require("../db");
+const db = require("../lib/db");
 const Inventory = require("./inventory");
 
 app.use(bodyParser.json());

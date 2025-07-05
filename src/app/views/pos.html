@@ -1,0 +1,290 @@
+<!-- Content for POS View -->
+
+<div id="pos_view">
+    <div class="bg-main mb-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="header-button col-sm-12 d-flex justify-content-between align-items-center my-2">
+                    <h2 id="currentDateTime" class="text-white">TEST TIME</h2>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-dark" id="cashier">
+                        <i class="bi bi-person-fill me-1"></i> <span id="loggedin-user"></span>
+                        </button>
+
+                        <button id="home" type="button" class="btn btn-dark">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Exit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!--Screen Left-->
+        <div class="col-md-4">
+            <div class="card-box" id="card-box">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select class="form-select" id="customer" >
+                                </select>
+                                <button data-bs-toggle="modal" data-bs-target="#newCustomer" id="add_customer_button" class="btn btn-secondary"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 mt-1">
+                            <div class="input-group">
+                                <form action="" id="searchBarCode">
+                                    <input type="text" required id="skuCode" name="skuCode" class="form-control" placeholder="Scan barcode or type the number then hit enter" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <input type="submit" style="display:none;">
+                                </form>
+                                <span class="input-group-text text-bg-secondary" id="basic-addon2">
+                                    <i class="bi bi-check-lg"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div>
+                    <table class="table table-hover" id="cartTable">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">
+                                    <button onclick="$(this).cancelOrder()" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+                
+                <hr>
+
+                <div class="m-t-5">
+                    <div class="row">
+                        <div class="col-md-3">Total Item(s)</div>
+                        <div class="col-md-3">: <span id="total">0</span></div>
+                        <div class="col-md-3">Price :</div>
+                        <div class="col-md-3">: <span id="price">0.0</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Discount</div>
+                        <div class="col-md-3"><input class="form-control" type="number" id="inputDiscount" oninput="$(this).calculateCart();"></div>
+                        <div class="col-md-3">Gross Price (inc <span id="taxInfo"></span>% Tax)</div>
+                        <div class="col-md-3"><h3 id="gross_price">0.00</h3></div>
+                        
+                    </div>
+
+                </div>
+
+                
+                <hr>
+
+                <!--Hold and Cancel Buttons-->
+
+                <div class="cart-button">
+                    <div class="hold-button">
+                        <button id="viewRefOrders" data-bs-toggle="modal" data-bs-target="#holdOrdersModal" type="button" class="btn btn-dark text-wrap position-relative fs-3">
+                            <span class="btn-label-center"><i class="bi-clock-history" style="font-weight: 2rem;"></i></span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-3 p-2 bg-warning fs-6">
+                                99
+                                <span class="visually-hidden">Held Orders</span>
+                            </span>
+                        </button>
+                    </div>
+                    <button  onclick="$(this).cancelOrder()" type="button" class="btn btn-secondary text-wrap waves-effect waves-light fs-3">
+                        <span class="cart-btn-label"><i  class="fa fa-ban"></i></span>Cancel
+                    </button>
+
+                    <button type="button" id="hold" class="btn btn-secondary waves-effect text-wrap waves-light fs-3">
+                        <span class="cart-btn-label"><i class="bi bi-stopwatch"></i></span>Hold
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!--Screen Right-->
+        <div class="col-md-8">
+            <div class="pos-card-box align-items-center">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" id="search" class="form-control" placeholder="Search product by name or number">
+                    </div>
+                    <div class="col-md-7">
+                        <div id="categories">
+                            <!-- Category buttons will be appended here -->
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <button id="add-shortcut" data-toggle="modal" type="button" class="btn btn-success waves-effect waves-light">
+                        <i class="fa fa-plus"></i> 
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row" id="parent" style="overflow: auto">
+                    <!-- Items will be appended here -->
+                </div>
+                <div class="row page-numbers" id="pagination">
+                    <!-- Pagination can be handled here if needed -->
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Payment Methods Section -->
+                            <div class="col-md-4">
+                                <div class="list-group">
+                                    <a href="javascript:void(0)" id="cash" class="list-group-item list-group-item-action py-3 active fs-5">Cash</a>
+                                    <a href="javascript:void(0)" id="card" class="list-group-item list-group-item-action py-3 fs-5">Card</a>
+                                </div>
+                                <div class="row">
+                                    <div class="d-grid gap-1 col-6">
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" style="height: 4rem;" class="btn btn-info text-wrap fs-4 w-100">
+                                            <i class="fa fa-print"></i> Print
+                                        </button>
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" style="height: 4rem;" class="btn btn-dark text-wrap fs-4 w-100">
+                                            <i class="bi-percent"></i> Discount
+                                        </button>
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" style="height: 4rem;" class="btn btn-danger text-wrap fs-4 w-100">
+                                            <i class="bi-pause-circle"></i> Pause
+                                        </button>
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" style="height: 4rem;" class="btn btn-warning text-wrap fs-4 w-100">
+                                            <i class="bi-three-dots-vertical"></i> Other
+                                        </button>
+                                        <button onclick="$(this).submitDueOrder(3);" type="button" style="height: 4rem;" class="btn btn-success text-wrap fs-4 w-100">
+                                            <i class="fa fa-print"></i> Items
+                                        </button>
+                                    </div>
+                                    <div class="d-grid gap-1 col-6">
+                                        <button id="viewCustomerOrders" data-bs-toggle="modal" data-bs-target="#customerModal" type="button" style="height: 4rem;" onclick="$(this).getCustomerOrders()" class="btn btn-purple text-wrap fs-4 w-100">
+                                            <i class="fa fa-user"></i> Customer
+                                        </button>
+                                        <button id="viewCustomerOrders" data-bs-toggle="modal" data-bs-target="#customerModal" type="button" style="height: 4rem;" onclick="$(this).getCustomerOrders()" class="btn btn-danger text-wrap fs-4 w-100">
+                                            <i class="fa fa-user"></i> Refund
+                                        </button>
+                                        <button id="viewCustomerOrders" data-bs-toggle="modal" data-bs-target="#customerModal" type="button" style="height: 4rem;" onclick="$(this).getCustomerOrders()" class="btn btn-success text-wrap fs-4 w-100">
+                                            <i class="bi-play-circle"></i> Resume
+                                        </button>
+                                        <button id="viewCustomerOrders" data-bs-toggle="modal" data-bs-target="#customerModal" type="button" style="height: 4rem;" onclick="$(this).getCustomerOrders()" class="btn btn-inverse text-wrap fs-4 w-100">
+                                            <i class="fa fa-user"></i> Customer
+                                        </button>
+                                        <button id="viewCustomerOrders" data-bs-toggle="modal" data-bs-target="#customerModal" type="button" style="height: 4rem;" onclick="$(this).getCustomerOrders()" class="btn btn-purple text-wrap fs-4 w-100">
+                                            <i class="fa fa-user"></i> Customer
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+        
+                            
+                            <!-- Keypad Section -->
+                            <div class="col-md-8">
+                                <div class="row mb-2">
+                                    <div class="col-md-9">
+                                        <div class="input-group input-group-lg">
+                                            <span class="input-group-text text-bg-secondary fs-3" id="basic-addon3"><span id="payment_curr"></span></span>
+                                            <input type="text" placeholder="0.0" class="form-control form-control-lg fs-3" id="payment" aria-describedby="basic-addon3">
+                                            <button onclick="$('#payment').val($('#payment').val().slice(0, -1)); $(this).calculateChange();" class="btn btn-danger fs-3">⌫</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-secondary btn-lg w-100"><span id="change_curr"></span><span id="change">Change</span></button>
+                                    </div>
+                                </div>
+                                <!-- number Keys -->
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <button onclick="$(this).go(7, false);" class="btn btn-secondary btn-lg w-100 fs-1">7</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(8, false);" class="btn btn-secondary btn-lg w-100 fs-1">8</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(9, false);" class="btn btn-secondary btn-lg w-100 fs-1">9</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$('#payment').val(''); $(this).calculateChange();" class="btn btn-danger btn-lg w-100 fs-1">⌫</button>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <button onclick="$(this).go(4, false);" class="btn btn-secondary btn-lg w-100 fs-1">4</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(5, false);" class="btn btn-secondary btn-lg w-100 fs-1">5</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(6, false);" class="btn btn-secondary btn-lg w-100 fs-1">6</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(50, false);" class="btn btn-dark btn-lg w-100 fs-1">$50</button>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <button onclick="$(this).go(1, false);" class="btn btn-secondary btn-lg w-100 fs-1">1</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(2, false);" class="btn btn-secondary btn-lg w-100 fs-1">2</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(3, false);" class="btn btn-secondary btn-lg w-100 fs-1">3</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go(100, false);" class="btn btn-dark btn-lg w-100 fs-1">$100</button>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <button onclick="$(this).go(0, false);" class="btn btn-secondary btn-lg w-100 fs-1">0</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).go('00', false);" class="btn btn-secondary btn-lg w-100 fs-1">00</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$(this).digits()" class="btn btn-secondary btn-lg w-100 fs-1">.</button>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="$('#payment').val(''); $(this).calculateChange();" class="btn btn-danger btn-lg w-100 fs-1">Refund</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button onclick="$('#payment').val(''); $(this).calculateChange();" class="btn btn-danger btn-lg w-100 fs-2">Round Up</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" id="confirmPayment" class="btn btn-success btn-lg w-100 fs-2">
+                                            <i class="fa fa-money"></i> Pay
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

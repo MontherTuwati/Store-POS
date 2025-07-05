@@ -1,0 +1,157 @@
+<!-- Content for Home View -->
+<div id="home_view" class="container-fluid p-4">
+    <div class="mx-auto m-t-30">
+        <div class="row">
+            <!-- Sidebar Menu -->
+            <div class="col-md-2">
+                <div class="p-3 centered rounded">
+                    <!-- Logo Section -->
+                    <div class="text-center mb-4">
+                        <img src="assets\images\StorePOS.svg" alt="Logo" class="img-fluid" style="width: 200px;">
+                    </div>
+
+                    <!-- Menu Buttons -->
+                    <div class="d-grid gap-3">
+                        <button id="dashboard" class="btn-square btn btn-block py-3 active">
+                            <h3><i class="fa fa-chart-pie"></i></h3>
+                            <h5>Dashboard</h5>
+                        </button>
+                        <button id="pointofsale" class="btn-square btn btn-block py-3">
+                            <h3><i class="bi bi-pc-display"></i></h3>
+                            <h5>Terminal</h5>
+                        </button>
+                        <button id="stocks" class="btn-square btn btn-block py-3">
+                            <h3><i class="bi bi-box-seam-fill"></i></h3>
+                            <h5>Stocks</h5>
+                        </button>
+                        <button id="settings" class="btn-square btn btn-block py-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                            <h3><i class="fa fa-gear"></i></h3>
+                            <h5>Settings</h5>
+                        </button>
+                        <button id="logout-options" class="btn-square btn btn-block py-3">
+                            <h3><i class="fa-solid fa-right-from-bracket"></i></h3>
+                            <h5>Logout</h5>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+    
+            <!-- Transaction Summary -->
+            <div class="col-md-6">
+                <h4 id="currentDateTime"></h4>
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div id="total_sales" class="card bg-main p-3 shadow-sm rounded" >
+                            <h3><i class="fa-solid fa-hand-holding-dollar"></i></h3>
+                            <div id="counter">0</div>
+                            <h6>Total Revenue</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="total_items" class="card bg-main p-3 shadow-sm rounded">
+                            <h3><i class="fas fa-receipt"></i></h3>
+                            <div id="counter">0</div>
+                            <h6>Total Orders</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="total_transactions" class="card bg-main p-3 shadow-sm rounded">
+                            <h3><i class="fas fa-file-invoice-dollar"></i></h3>
+                            <div id="counter">0</div>
+                            <h6>Total Sold</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="total_products" class="card bg-main p-3 shadow-sm rounded">
+                            <h3><i class="fas fa-box-open"></i></h3>
+                            <div id="counter">0</div>
+                            <h6>Products</h6>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Order Summary -->
+                <div class="card mt-4 shadow-sm p-4 rounded">
+                    <div class="col-md-12" id="productSales">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="text-black">Today's Transactions</h3>
+                            <button id="transactions"class="btn">more <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        <hr>
+                        <table class="table tablesaw-enhanced" id="productsSold">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Sold</th>
+                                    <th>Available</th>
+                                    <th>Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product_sales"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Overall Stats -->
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    <div class="card p-4">
+                        <!-- Overall Statistics Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="text-black">Overall Statistics</h3>
+                            <button id="statistics" class="btn">more <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="btnradio1">This week</label>
+                        
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked>
+                            <label class="btn btn-outline-secondary" for="btnradio2">This month</label>
+                        
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="btnradio3">This year</label>
+                        </div>
+                    
+                        <!-- DataTables -->
+                            <div class="col-md-6">
+                                <h5>Data Set 1</h5>
+                                <table id="dataTable1" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Column 1</th>
+                                            <th>Column 2</th>
+                                            <th>Column 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data rows go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Data Set 2</h5>
+                                <table id="dataTable2" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Column 1</th>
+                                            <th>Column 2</th>
+                                            <th>Column 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data rows go here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

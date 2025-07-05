@@ -64,7 +64,7 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.show();
 
-  mainWindow.loadURL(`file://${path.join(__dirname, 'index.html')}`);
+  mainWindow.loadURL(`file://${path.join(__dirname, 'src/app/index.html')}`);
 
   mainWindow.on('closed', () => {
     mainWindow = null;

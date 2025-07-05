@@ -1,0 +1,62 @@
+<!--  Modal content for User -->
+<div id="userModal" class="modal fade " tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mySmallModalLabel">Account Information
+                    <img class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="saveUser" data-parsley-validate>
+                    <div class="form-group">
+                        <div class="row">
+                            <input type="hidden" name="id" id="user_id">
+                            <div class="form-group">
+                                <label for="fullname">Name*</label>
+                                <input type="text" required="required" name="fullname" parsley-trigger="change" placeholder="Enter name" class="form-control" id="fullname">
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username*</label>
+                                <input type="text" name="username" parsley-trigger="change" placeholder="Login Username" class="form-control" id="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" parsley-trigger="change" placeholder="Password" class="form-control" id="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="pass">Repeat Password</label>
+                                <input type="password" name="pass" parsley-trigger="change" placeholder="Repeat" class="form-control" id="pass">
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <div class="perms">
+                                <h4 style="font-size: 22px; margin-top: 20px;">Permissions</h4>
+                                <hr>
+                                <div class="form-group">
+                                    <span><input type="checkbox" name="perm_products" id="perm_products"> Manage Products and Stock </span>
+                                </div>
+                                <div class="form-group">
+                                    <span><input type="checkbox" name="perm_categories" id="perm_categories"> Manage Product Categories </span>
+                                </div>
+                                <div class="form-group">
+                                    <span><input type="checkbox" name="perm_transactions" id="perm_transactions"> View Transactions </span>
+                                </div>
+                                <div class="form-group">
+                                    <span><input type="checkbox" name="perm_users" id="perm_users"> Manage Users and Permissions </span>
+                                </div>
+                                <div class="form-group">
+                                    <span><input type="checkbox" name="perm_settings" id="perm_settings"> Manage Settings </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <input type="submit" class="btn btn-primary btn-block waves-effect waves-light">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

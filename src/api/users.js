@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const btoa = require("btoa");
-const db = require("../../db");
+const db = require("../lib/db");
 
 app.use(bodyParser.json());
 
