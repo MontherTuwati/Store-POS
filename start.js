@@ -64,7 +64,7 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.show();
 
-  mainWindow.loadURL(`file://${path.join(__dirname, 'src', 'renderer', 'index.html')}`);
+  mainWindow.loadURL(`file://${path.join(__dirname, 'src', 'renderer', 'home.html')}`);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -98,6 +98,21 @@ ipcMain.on('app-restart', (evt, arg) => {
 
 ipcMain.on('app-reload', (event, arg) => {
   mainWindow.reload();
+});
+
+ipcMain.on('navigate', (event, route) => {
+  const pages = {
+    home: 'home.html',
+    pos: 'pos.html',
+    settings: 'settings.html',
+    statistics: 'statistics.html',
+    stocks: 'stocks.html',
+    transactions: 'transactions.html',
+  };
+  const file = pages[route];
+  if (file) {
+    mainWindow.loadFile(path.join(__dirname, 'src', 'renderer', 'views', file));
+  }
 });
 
 contextMenu({

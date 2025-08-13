@@ -1200,46 +1200,27 @@ if (auth == undefined) {
     });
     
     $("#home").click(function () {
-        $("#pos_view").hide();
-        $("#transactions_view").hide();
-        $("#statistics_view").hide();
-        $("#stock_view").hide();
-        $("#home_view").show();
-        $("#transactions").show();
-        $("#pointofsale").show();
-        $("#statistics").show();
-        $("#test_view").hide();
-        $("#stocks").show();
+      ipcRenderer.send('navigate', 'home');
     });
 
     $("#stocks").click(function () {
-      $("#stock_view").show();
-      $("#home_view").hide();
+      ipcRenderer.send('navigate', 'stocks');
     });
 
     $("#statistics").click(function () {
-      loadTransactions();
-      loadStats();
-      $("#statistics_view").show();
-      $("#home_view").hide();
+      ipcRenderer.send('navigate', 'statistics');
     });
 
     $("#transactions").click(function () {
-        loadTransactions();
-        loadUserList();
-
-        $("#home_view").hide();
-        $("#transactions_view").show();
+        ipcRenderer.send('navigate', 'transactions');
     });
 
     $("#pointofsale").click(function () {
-        $("#home_view").hide();
-        $("#pos_view").show();
+        ipcRenderer.send('navigate', 'pos');
     });
 
     $("#testui").click(function () {
-      $("#home_view").hide();
-      $("#test_view").show();
+      ipcRenderer.send('navigate', 'test');
     });
 
     $(document).ready(function() {
