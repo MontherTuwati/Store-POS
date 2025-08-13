@@ -64,7 +64,7 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.show();
 
-  mainWindow.loadURL(`file://${path.join(__dirname, 'src/app/index.html')}`);
+  mainWindow.loadURL(`file://${path.join(__dirname, 'src', 'renderer', 'index.html')}`);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -86,8 +86,6 @@ app.on('activate', () => {
   }
 })
 
-
-
 ipcMain.on('app-quit', (evt, arg) => {
   app.quit()
 })
@@ -101,8 +99,6 @@ ipcMain.on('app-restart', (evt, arg) => {
 ipcMain.on('app-reload', (event, arg) => {
   mainWindow.reload();
 });
-
-
 
 contextMenu({
   prepend: (params, browserWindow) => [
