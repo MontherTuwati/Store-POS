@@ -1236,7 +1236,6 @@ if (auth == undefined) {
         $("#home_view").hide();
         $("#pos_view").show();
     });
-    
 
     $("#testui").click(function () {
       $("#home_view").hide();

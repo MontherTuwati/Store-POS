@@ -1,82 +1,129 @@
-<!-- Content for Transactions View -->
-<div id="transactions_view">
-    <div class="row">
-        <div class="col-md-12">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>StorePOS - Transactions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script> window.$ = window.jQuery = require('jquery'); </script>
+
+    <!-- Core Styles -->
+    <link href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="../../assets/css/core.css" rel="stylesheet" />
+    <link href="../../assets/css/components.css" rel="stylesheet" />
+    <link href="../../assets/css/icons.css" rel="stylesheet" />
+    <link href="../../assets/css/responsive.css" rel="stylesheet" />
+    <link href="../../assets/css/pages.css" rel="stylesheet" />
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  </head>
+
+  <body>
+    <div class="main_app">
+      <!-- Global Loader -->
+      <div id="loading" class="modal" tabindex="-1" aria-hidden="true"></div>
+      <div id="global-loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
+        <img src="/images/loading.gif" alt="Loading..." height="60" />
+      </div>
+
+      <!-- Content for Transactions View -->
+      <div id="transactions_view">
+        <div class="row">
+          <div class="col-md-12">
             <!-- start of banners -->
             <div class="col-md bannerDisplay" id="totals">
-                <div id="total_sales" class="bg-success transactions-banner">
-                    <h5>SALES</h5>
-                    <div id="counter">0</div>
-                </div>
+              <div id="total_sales" class="bg-success transactions-banner">
+                <h5>SALES</h5>
+                <div id="counter">0</div>
+              </div>
 
-                <div id="total_transactions" class="bg-warning transactions-banner">
-                    <h5>TRANSACTIONS</h5>
-                    <div id="counter">0</div>
-                </div>
-                
-                <div id="total_items" class="bg-info items-banner">
-                    <h5>ITEMS SOLD</h5>
-                    <div id="counter">0</div>
-                </div>
+              <div id="total_transactions" class="bg-warning transactions-banner">
+                <h5>TRANSACTIONS</h5>
+                <div id="counter">0</div>
+              </div>
 
-                <div id="total_products" class="bg-main products-banner">
-                    <h5>PRODUCTS</h5>
-                    <div id="counter">0</div>
-                </div>                           
+              <div id="total_items" class="bg-info items-banner">
+                <h5>ITEMS SOLD</h5>
+                <div id="counter">0</div>
+              </div>
+
+              <div id="total_products" class="bg-main products-banner">
+                <h5>PRODUCTS</h5>
+                <div id="counter">0</div>
+              </div>
             </div>
-                
-            <div class="card-box"> 
-                <div class="row">               
-                    <h3 class="col-md-2">Transactions</h3> 
-                    <div class="col-md-1">
-                        <span>Till</span>
-                        <select id="tills" class="form-control">                              
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <span>Cashier</span>
-                        <select id="users" class="form-control">
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        <span>Status</span>
-                        <select id="status" class="form-control status">
-                            <option value="1">Paid</option>
-                            <option value="0">Unpaid</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <span style="width: 100%;">Date</span>
-                        <div id="reportrange">
-                            <i class="fa fa-calendar"></i>&nbsp;
-                            <span></span> <i class="fa fa-caret-down"></i>
-                        </div>
-                    </div>
-                </div>   
-                <hr>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="col-md-12"> 
-                            <table class="table tablesaw-enhanced" id="transactionList">
-                                <thead>
-                                    <tr>                                                                      
-                                        <th>Invoice</th>                                      
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Paid</th>
-                                        <th>Change</th>
-                                        <th>Method</th>
-                                        <th>Till</th>
-                                        <th>Cashier</th>
-                                        <th>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="transaction_list"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>                    
+
+            <div class="card-box">
+              <div class="row">
+                <h3 class="col-md-2">Transactions</h3>
+                <div class="col-md-1">
+                  <span>Till</span>
+                  <select id="tills" class="form-control"></select>
+                </div>
+                <div class="col-md-2">
+                  <span>Cashier</span>
+                  <select id="users" class="form-control"></select>
+                </div>
+                <div class="col-md-1">
+                  <span>Status</span>
+                  <select id="status" class="form-control status">
+                    <option value="1">Paid</option>
+                    <option value="0">Unpaid</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <span style="width: 100%;">Date</span>
+                  <div id="reportrange">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="col-md-12">
+                    <table class="table tablesaw-enhanced" id="transactionList">
+                      <thead>
+                        <tr>
+                          <th>Invoice</th>
+                          <th>Date</th>
+                          <th>Total</th>
+                          <th>Paid</th>
+                          <th>Change</th>
+                          <th>Method</th>
+                          <th>Till</th>
+                          <th>Cashier</th>
+                          <th>View</th>
+                        </tr>
+                      </thead>
+                      <tbody id="transaction_list"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+
+    <!-- Final Boot -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            require('../../../../renderer.js');
+        });
+    </script>
+    <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../node_modules/feather-icons/dist/feather.min.js"></script>
+    <script src="../../../node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
+    <script src="../../../node_modules/chart.js/dist/chart.umd.js"></script>
+  </body>
+</html>
