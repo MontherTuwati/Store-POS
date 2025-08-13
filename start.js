@@ -19,9 +19,9 @@ const appVersion = app.getVersion();
 autoUpdater.setFeedURL({
   provider: 'github',
   owner: 'MontherTuwati',
-  repo: 'Zeead-POS',
+  repo: 'Store-POS',
   token: process.env.GITHUB_TOKEN,
-  url: `https://github.com/MontherTuwati/Zeead-POS/releases/tag/v${appVersion}`,
+  url: `https://github.com/MontherTuwati/Store-POS/releases/tag/v${appVersion}`,
 });
 
 autoUpdater.checkForUpdatesAndNotify();
