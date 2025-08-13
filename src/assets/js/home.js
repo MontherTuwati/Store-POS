@@ -1,8 +1,8 @@
 const common = require('./common.js');
 
-// Initialize only the POS view
+// Initialize only the Home view
 $(document).ready(function () {
-  $('#pos_view').show();
+  $('#home_view').show();
 });
 
 module.exports = {};
