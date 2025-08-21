@@ -27,7 +27,13 @@ class POSModule {
     // Setup POS-specific event listeners
     setupEventListeners() {
         // Exit button functionality
-        $('#exit-pos').on('click', () => {
+        console.log('Setting up exit button listener...');
+        const exitButton = $('#exit-pos');
+        console.log('Exit button found:', exitButton.length > 0);
+        
+        exitButton.on('click', (e) => {
+            console.log('Exit button clicked!');
+            e.preventDefault();
             this.exitPOS();
         });
 
@@ -308,5 +314,11 @@ class POSModule {
 
 // Create and export the POS module
 window.posModule = new POSModule();
+
+// Initialize the POS module when the page loads
+$(document).ready(() => {
+    console.log('Initializing POS module...');
+    window.posModule.init();
+});
 
 module.exports = POSModule;
