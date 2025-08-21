@@ -26,6 +26,11 @@ class POSModule {
 
     // Setup POS-specific event listeners
     setupEventListeners() {
+        // Exit button functionality
+        $('#exit-pos').on('click', () => {
+            this.exitPOS();
+        });
+
         // Category filter
         $('#category-filter').on('change', (e) => {
             this.filterProducts(e.target.value);
@@ -260,6 +265,35 @@ class POSModule {
     printReceipt(orderData) {
         // Implementation for receipt printing
         console.log('Printing receipt:', orderData);
+    }
+
+    // Exit POS and return to home
+    exitPOS() {
+        // Check if there are items in cart
+        if (this.cart.length > 0) {
+            Swal.fire({
+                title: 'Unsaved Items',
+                text: 'You have items in your cart. Are you sure you want to exit?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, exit',
+                cancelButtonText: 'Stay in POS',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.navigateToHome();
+                }
+            });
+        } else {
+            this.navigateToHome();
+        }
+    }
+
+    // Navigate back to home
+    navigateToHome() {
+        // Use the same navigation method as the main app
+        window.location.href = '../views/home.html';
     }
 
     // Cleanup when leaving POS view

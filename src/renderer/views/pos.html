@@ -30,46 +30,11 @@
         <img src="../../../public/images/loading.gif" alt="Loading..." height="60" />
       </div>
 
-      <!-- Content for POS View -->
-        <div id="pos_view" class="container-fluid p-4">
-            <div class="mx-auto m-t-30">
-                <div class="row">
-                    <!-- Sidebar Menu -->
-                    <div class="col-md-2">
-                        <div class="p-3 centered rounded">
-                            <!-- Logo Section -->
-                            <div class="text-center mb-4">
-                                <img src="../../../public/images/StorePOS.svg" alt="Logo" class="img-fluid" style="width: 200px;">
-                            </div>
-
-                            <!-- Menu Buttons -->
-                            <div class="d-grid gap-3">
-                                <button id="dashboard" class="btn-square btn btn-block py-3">
-                                    <h3><i class="fa fa-chart-pie"></i></h3>
-                                    <h5>Dashboard</h5>
-                                </button>
-                                <button id="pointofsale" class="btn-square btn btn-block py-3 active">
-                                    <h3><i class="bi bi-pc-display"></i></h3>
-                                    <h5>Terminal</h5>
-                                </button>
-                                <button id="stocks" class="btn-square btn btn-block py-3">
-                                    <h3><i class="bi bi-box-seam-fill"></i></h3>
-                                    <h5>Stocks</h5>
-                                </button>
-                                <button id="settings" class="btn-square btn btn-block py-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
-                                    <h3><i class="fa fa-gear"></i></h3>
-                                    <h5>Settings</h5>
-                                </button>
-                                <button id="logout-options" class="btn-square btn btn-block py-3">
-                                    <h3><i class="fa-solid fa-right-from-bracket"></i></h3>
-                                    <h5>Logout</h5>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- POS Content -->
-                    <div class="col-md-10">
+             <!-- Content for POS View -->
+         <div id="pos_view" class="container-fluid p-0">
+             <div class="mx-auto">
+                 <!-- POS Content -->
+                 <div class="col-12">
                         <div class="bg-main mb-3">
                             <div class="container-fluid">
                                 <div class="row">
@@ -80,9 +45,9 @@
                                             <i class="bi bi-person-fill me-1"></i> <span id="loggedin-user"></span>
                                             </button>
 
-                                            <button id="home" type="button" class="btn btn-dark">
-                                            <i class="bi bi-box-arrow-in-right me-1"></i> Exit
-                                            </button>
+                                                                                         <button id="exit-pos" type="button" class="btn btn-dark">
+                                             <i class="bi bi-box-arrow-in-right me-1"></i> Exit
+                                             </button>
                                         </div>
                                     </div>
                                 </div>
@@ -353,10 +318,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
                     </div>
                 </div>
             </div>
