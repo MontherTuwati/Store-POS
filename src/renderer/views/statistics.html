@@ -27,14 +27,50 @@
       <!-- Global Loader -->
       <div id="loading" class="modal" tabindex="-1" aria-hidden="true"></div>
       <div id="global-loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
-        <img src="../../../images/loading.gif" alt="Loading..." height="60" />
+        <img src="../../../public/images/loading.gif" alt="Loading..." height="60" />
       </div>
 
       <!-- Content for Statistics View -->
-      <div id="statistics_view">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card-box">
+      <div id="statistics_view" class="container-fluid p-4">
+        <div class="mx-auto m-t-30">
+          <div class="row">
+            <!-- Sidebar Menu -->
+            <div class="col-md-2">
+              <div class="p-3 centered rounded">
+                <!-- Logo Section -->
+                <div class="text-center mb-4">
+                  <img src="../../../public/images/StorePOS.svg" alt="Logo" class="img-fluid" style="width: 200px;">
+                </div>
+
+                <!-- Menu Buttons -->
+                <div class="d-grid gap-3">
+                  <button id="dashboard" class="btn-square btn btn-block py-3">
+                    <h3><i class="fa fa-chart-pie"></i></h3>
+                    <h5>Dashboard</h5>
+                  </button>
+                  <button id="pointofsale" class="btn-square btn btn-block py-3">
+                    <h3><i class="bi bi-pc-display"></i></h3>
+                    <h5>Terminal</h5>
+                  </button>
+                  <button id="stocks" class="btn-square btn btn-block py-3">
+                    <h3><i class="bi bi-box-seam-fill"></i></h3>
+                    <h5>Stocks</h5>
+                  </button>
+                  <button id="settings" class="btn-square btn btn-block py-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                    <h3><i class="fa fa-gear"></i></h3>
+                    <h5>Settings</h5>
+                  </button>
+                  <button id="logout-options" class="btn-square btn btn-block py-3">
+                    <h3><i class="fa-solid fa-right-from-bracket"></i></h3>
+                    <h5>Logout</h5>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Statistics Content -->
+            <div class="col-md-10">
+              <div class="card-box">
               <nav aria-label="...">
                 <ul class="pagination pagination-lg justify-content-center">
                   <li class="page-item">
@@ -54,12 +90,16 @@
           </div>
         </div>
       </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Final Boot -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            require('../../../../renderer.js');
+            require('../../assets/js/app.js');
         });
     </script>
     <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

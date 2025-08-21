@@ -23,7 +23,7 @@
       <!-- Global Loader -->
       <div id="loading" class="modal" tabindex="-1" aria-hidden="true"></div>
       <div id="global-loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
-        <img src="../../../images/loading.gif" alt="Loading..." height="60" />
+        <img src="../../../public/images/loading.gif" alt="Loading..." height="60" />
       </div>
 
       <!-- Content for Home View -->
@@ -72,28 +72,28 @@
                             <div class="col-md-3">
                                 <div id="total_sales" class="card bg-main p-3 shadow-sm rounded" >
                                     <h3><i class="fa-solid fa-hand-holding-dollar"></i></h3>
-                                    <div id="counter">0</div>
+                                    <div class="counter">0</div>
                                     <h6>Total Revenue</h6>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div id="total_items" class="card bg-main p-3 shadow-sm rounded">
                                     <h3><i class="fas fa-receipt"></i></h3>
-                                    <div id="counter">0</div>
+                                    <div class="counter">0</div>
                                     <h6>Total Orders</h6>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div id="total_transactions" class="card bg-main p-3 shadow-sm rounded">
                                     <h3><i class="fas fa-file-invoice-dollar"></i></h3>
-                                    <div id="counter">0</div>
+                                    <div class="counter">0</div>
                                     <h6>Total Sold</h6>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div id="total_products" class="card bg-main p-3 shadow-sm rounded">
                                     <h3><i class="fas fa-box-open"></i></h3>
-                                    <div id="counter">0</div>
+                                    <div class="counter">0</div>
                                     <h6>Products</h6>
                                 </div>
                             </div>
@@ -143,39 +143,10 @@
                                     <label class="btn btn-outline-secondary" for="btnradio3">This year</label>
                                 </div>
                             
-                                <!-- DataTables -->
-                                    <div class="col-md-6">
-                                        <h5>Data Set 1</h5>
-                                        <table id="dataTable1" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 3</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Data rows go here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5>Data Set 2</h5>
-                                        <table id="dataTable2" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 3</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Data rows go here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <!-- Charts Container -->
+                                <div id="charts-container" class="mt-4">
+                                    <!-- Charts will be loaded dynamically -->
                                 </div>
-                            
                             </div>
                         </div>
                     </div>
@@ -184,15 +155,17 @@
         </div>
     </div>
 
-    <!-- Final Boot -->
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            require('../../../../src/assets/js/home.js');
-        });
-    </script>
+    <!-- Core Scripts -->
     <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../../node_modules/feather-icons/dist/feather.min.js"></script>
     <script src="../../../node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
     <script src="../../../node_modules/chart.js/dist/chart.umd.js"></script>
+    
+    <!-- Application Script -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            require('../../assets/js/app.js');
+        });
+    </script>
   </body>
 </html>

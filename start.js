@@ -35,7 +35,7 @@ const setupEvents = require('./installers/setupEvents')
 log.transports.file.file = `${app.getPath('userData')}/StorePOS.log`;
 log.transports.file.level = 'info'; // or 'debug', 'warn', 'error', etc.
 log.transports.file.format = '{h}:{i}:{s} {level} {text}';
-log.transports.console.level = false; // Disable console logging
+log.transports.console.level = 'info'; // Enable console logging
 log.catchErrors();
 log.info('App started');
 
@@ -64,7 +64,7 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.show();
 
-  mainWindow.loadURL(`file://${path.join(__dirname, 'src', 'renderer', 'home.html')}`);
+  mainWindow.loadURL(`file://${path.join(__dirname, 'src', 'renderer', 'views', 'home.html')}`);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -101,6 +101,8 @@ ipcMain.on('app-reload', (event, arg) => {
 });
 
 ipcMain.on('navigate', (event, route) => {
+  console.log('Main process received navigate request for:', route);
+  
   const pages = {
     home: 'home.html',
     pos: 'pos.html',
@@ -111,7 +113,10 @@ ipcMain.on('navigate', (event, route) => {
   };
   const file = pages[route];
   if (file) {
+    console.log('Loading file:', file);
     mainWindow.loadFile(path.join(__dirname, 'src', 'renderer', 'views', file));
+  } else {
+    console.log('No file found for route:', route);
   }
 });
 
